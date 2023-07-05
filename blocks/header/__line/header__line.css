@@ -1,6 +1,4 @@
 .header__line {
-  color: #545454;
+  border-color: #545454;
   margin: 0;
-  line-height: 1;
-  max-width: 880px;
 }

@@ -1,0 +1,8 @@
+.profile__button_edit {
+  border-width: 1px;
+  padding: 5.25px 5.25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
