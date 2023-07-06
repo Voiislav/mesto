@@ -2,11 +2,14 @@
   border-radius: 2px;
   width: 100%;
   border-width: 2px;
-  padding: 17px 0 17px 0;
+  padding: 14px 0;
+  max-width: 150px;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 767px) {
   .profile__button_add {
-    max-width: 150px;
+    width: 100%;
+    padding: 17px 0;
+    max-width: 282px;
   }
 }

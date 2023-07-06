@@ -1,8 +1,17 @@
 .profile__button_edit {
   border-width: 1px;
-  padding: 5.25px 5.25px;
+  padding: 7px;
+  max-width: 24px;
+  max-height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
 
+@media screen and (max-width: 767px) {
+  .profile__button_edit {
+    padding: 5.25px;
+    max-width: 18px;
+    max-height: 18px;
+  }
 }
