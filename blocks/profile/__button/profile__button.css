@@ -3,7 +3,7 @@
   border-style: solid;
   border-color: #ffffff;
   box-shadow: none;
-  cursor: url(../../../images/cursor.png), pointer;
+  cursor: pointer;
 }
 
 .profile__button:hover {

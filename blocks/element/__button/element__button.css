@@ -2,7 +2,13 @@
   background: none;
   border: none;
   box-shadow: none;
-  cursor: url(../../../images/cursor.png), pointer;
+  cursor: pointer;
+  background-image: url(../../../images/like_icon.svg);
+  background-repeat: no-repeat;
+  min-width: 22px;
+  min-height: 19px;
+  align-self: center;
+  background-position: center;
 }
 
 .element__button:hover {

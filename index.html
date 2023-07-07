@@ -19,61 +19,56 @@
         <img class="profile__avatar" src="./images/jacques-yves-cousteau_photo.jpg" alt="На фото - Жак-Ив Кусто">
         <div class="profile__edit-area">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
-          <button type="button" class="profile__button profile__button_edit"><img class="profile__button-icon profile__button-icon_edit"
-            src="./images/edit_icon.svg" alt="Иконка карандаш"></button>
+          <button type="button" class="profile__button profile__button_edit" aria-label="Изменить"><img
+              class="profile__button-icon profile__button-icon_edit" src="./images/edit_icon.svg"
+              alt="Иконка карандаш"></button>
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
       </div>
-      <button type="button" class="profile__button profile__button_add"><img class="profile__button-icon profile__button-icon_add"
-          src="./images/add_icon.svg" alt="Иконка плюс"></button>
+      <button type="button" class="profile__button profile__button_add" aria-label="Добавить контент"><img
+          class="profile__button-icon profile__button-icon_add" src="./images/add_icon.svg" alt="Иконка плюс"></button>
     </section>
     <section class="elements">
       <figure class="element">
         <img class="element__photo" src="./images/baikal_lake.jpg" alt="Лед Байкала под ногами">
         <figcaption class="element__caption">
           <p class="element__title">Байкал</p>
-          <button type="button" class="element__button"><img class="element__button-icon" src="./images/like_icon.svg"
-              alt="Иконка сердечко"></button>
+          <button type="button" class="element__button element__button_clicked" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
       <figure class="element">
         <img class="element__photo" src="./images/elbrus_mountain.jpg" alt="Гора Эльбрус">
         <figcaption class="element__caption">
           <p class="element__title">Гора Эльбрус</p>
-          <button type="button" class="element__button"><img class="element__button-icon" src="./images/like_icon.svg"
-              alt="Иконка сердечко"></button>
+          <button type="button" class="element__button element__button_clicked" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
       <figure class="element">
         <img class="element__photo" src="./images/karelia_temple.jpg" alt="Фото храма в Кижи (Карелия)">
         <figcaption class="element__caption">
           <h3 class="element__title">Карелия</h3>
-          <button type="button" class="element__button"><img class="element__button-icon" src="./images/like_icon.svg"
-              alt="Иконка сердечко"></button>
+          <button type="button" class="element__button element__button_clicked" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
       <figure class="element">
         <img class="element__photo" src="./images/kamchatka_mountain.jpg" alt="Заснеженная гора на Камчатке">
         <figcaption class="element__caption">
           <p class="element__title">Камчатка</p>
-          <button type="button" class="element__button"><img class="element__button-icon" src="./images/like_icon.svg"
-              alt="Иконка сердечко"></button>
+          <button type="button" class="element__button element__button_clicked" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
       <figure class="element">
         <img class="element__photo" src="./images/dombay_road.jpg" alt="Дорога с видом на гору">
         <figcaption class="element__caption">
           <p class="element__title">Домбай</p>
-          <button type="button" class="element__button"><img class="element__button-icon" src="./images/like_icon.svg"
-              alt="Иконка сердечко"></button>
+          <button type="button" class="element__button element__button_clicked" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
       <figure class="element">
         <img class="element__photo" src="./images/karachaevsk_temple.jpg" alt="Фото древнего храма">
         <figcaption class="element__caption">
           <p class="element__title">Карачаево-Черкессия</p>
-          <button type="button" class="element__button"><img class="element__button-icon" src="./images/like_icon.svg"
-              alt="Иконка сердечко"></button>
+          <button type="button" class="element__button element__button_clicked" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
     </section>
@@ -81,7 +76,15 @@
       <p class="footer__copywrite">&copy; 2023 Mesto Russia</p>
     </footer>
   </main>
-  <section class="popup"></section>
+  <section class="popup popup_opened">
+    <section class="popup__container popup__container_opened">
+      <button type="button" class="popup__close" aria-label="Закрыть окно редактирования"></button>
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <input type="text" class="popup__text" value="Жак-Ив Кусто">
+      <input type="text" class="popup__text" value="Исследователь океана">
+      <button type="button" aria-label="Сохранить изменения" class="popup__save">Сохранить</button>
+    </section>
+  </section>
 </body>
 
 </html>
