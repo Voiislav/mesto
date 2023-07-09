@@ -1,17 +1,20 @@
-# Проект: Место
+# Project: Mesto Russia
 
-### Обзор
+### Description
 
-* Figma
-* Картинки
+This project is one-page responsive website in russian with content that can be changed or added by user.
 
-**Figma**
+**What can be done**
 
-* [Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
+* Change profile data
+* Put likes on photos
 
-**Картинки**
+**Technologies**
 
-Доставать картинки предстоит из Фигмы. Это расхожая практика, поэтому полезно потренироваться.
-Не забудьте [оптимизировать картинки](https://tinypng.com/), чтобы ваш сайт загружался быстрее.
+* Flexbox
+* Grid Layout
+* Pure JavaScript
 
-Удачи!
+**Design**
+
+* [Figma link](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)

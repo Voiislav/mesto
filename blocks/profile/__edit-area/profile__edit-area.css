@@ -1,8 +1,6 @@
 .profile__edit-area {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  max-width: 336px;
+  flex-direction: column;
 }
 
 @media screen and (max-width: 767px) {
