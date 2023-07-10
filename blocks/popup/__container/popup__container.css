@@ -7,15 +7,13 @@
   max-width: 430px;
   box-sizing: border-box;
   width: 100%;
-  position: fixed;
-  top: 195px;
+  position: relative;
   padding: 34px 36px 37px 36px;
 }
 
 @media screen and (max-width: 767px) {
   .popup__container {
     max-width: 282px;
-    top: 123px;
     padding: 25px 22px;
   }
 }

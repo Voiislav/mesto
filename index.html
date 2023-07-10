@@ -6,88 +6,89 @@
   <meta name="author" content="Митрович Войислав">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./pages/index.css">
-  <title>Mesto</title>
+  <title>Место</title>
 </head>
 
 <body class="page">
+  <header class="header">
+    <img class="header__logo" src="./images/mesto_logo.svg" alt="Логотип Mesto Russia">
+  </header>
   <main class="main">
-    <header class="header">
-      <img class="header__logo" src="./images/mesto_logo.svg" alt="Логотип Mesto Russia">
-    </header>
     <section class="profile">
       <div class="profile__info">
         <img class="profile__avatar" src="./images/jacques-yves-cousteau_photo.jpg" alt="На фото - Жак-Ив Кусто">
         <div class="profile__edit-area">
           <div class="profile__top-line">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
-          <button type="button" class="profile__button profile__button_edit" aria-label="Изменить"><img
-              class="profile__button-icon profile__button-icon_edit" src="./images/edit_icon.svg"
-              alt="Иконка карандаш"></button>
+          <button type="button" class="profile__button profile__button_type_edit" aria-label="Изменить"></button>
           </div>    
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
       </div>
-      <button type="button" class="profile__button profile__button_add" aria-label="Добавить контент"><img
-          class="profile__button-icon profile__button-icon_add" src="./images/add_icon.svg" alt="Иконка плюс"></button>
+      <button type="button" class="profile__button profile__button_type_add" aria-label="Добавить контент"></button>
     </section>
     <section class="elements">
       <figure class="element">
         <img class="element__photo" src="./images/baikal_lake.jpg" alt="Лед Байкала под ногами">
         <figcaption class="element__caption">
-          <p class="element__title">Байкал</p>
+          <h2 class="element__title">Байкал</h2>
           <button type="button" class="element__button" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
       <figure class="element">
         <img class="element__photo" src="./images/elbrus_mountain.jpg" alt="Гора Эльбрус">
         <figcaption class="element__caption">
-          <p class="element__title">Гора Эльбрус</p>
+          <h2 class="element__title">Гора Эльбрус</h2>
           <button type="button" class="element__button" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
       <figure class="element">
         <img class="element__photo" src="./images/karelia_temple.jpg" alt="Фото храма в Кижи (Карелия)">
         <figcaption class="element__caption">
-          <h3 class="element__title">Карелия</h3>
+          <h2 class="element__title">Карелия</h2>
           <button type="button" class="element__button" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
       <figure class="element">
         <img class="element__photo" src="./images/kamchatka_mountain.jpg" alt="Заснеженная гора на Камчатке">
         <figcaption class="element__caption">
-          <p class="element__title">Камчатка</p>
+          <h2 class="element__title">Камчатка</h2>
           <button type="button" class="element__button" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
       <figure class="element">
         <img class="element__photo" src="./images/dombay_road.jpg" alt="Дорога с видом на гору">
         <figcaption class="element__caption">
-          <p class="element__title">Домбай</p>
+          <h2 class="element__title">Домбай</h2>
           <button type="button" class="element__button" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
       <figure class="element">
         <img class="element__photo" src="./images/karachaevsk_temple.jpg" alt="Фото древнего храма">
         <figcaption class="element__caption">
-          <p class="element__title">Карачаево-Черкессия</p>
+          <h2 class="element__title">Карачаево-Черкессия</h2>
           <button type="button" class="element__button" aria-label="Поставить лайк"></button>
         </figcaption>
       </figure>
     </section>
-    <footer class="footer">
-      <p class="footer__copywrite">&copy; 2023 Mesto Russia</p>
-    </footer>
   </main>
+  <footer class="footer">
+    <p class="footer__copywrite">&copy; 2023 Mesto Russia</p>
+  </footer>
   <section class="popup">
     <div class="popup__container">
       <button type="button" class="popup__close" aria-label="Закрыть окно редактирования"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <input type="text" class="popup__text popup__text_name" value="">
-      <input type="text" class="popup__text popup__text_job" value="">
-      <input type="submit" aria-label="Сохранить изменения" class="popup__submit" value="Сохранить">
+      <form class="popup__form" name="submitForm">
+      <input type="text" name="name" class="popup__text popup__text_type_name" value="" placeholder="Введите имя" required>
+      <input type="text" name="job" class="popup__text popup__text_type_job" value="" placeholder="Введите род занятий" required>
+      <button type="submit" name="submitButton" aria-label="Сохранить изменения" class="popup__submit">Сохранить</button>
+    </form>
     </div>
   </section>
+
+  <script src="./scripts/index.js"></script>
+
 </body>
-<script src="./scripts/index.js"></script>
 
 </html>
