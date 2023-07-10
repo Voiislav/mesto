@@ -8,5 +8,6 @@
   .profile__edit-area {
     justify-content: center;
     margin-bottom: 36px;
+    max-width: 282px;
   }
 }

@@ -7,6 +7,7 @@
   background-image: url(../../../../images/add_icon.svg);
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 16px 16px;
 }
 
 @media screen and (max-width: 767px) {
