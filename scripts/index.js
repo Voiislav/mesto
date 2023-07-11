@@ -8,6 +8,8 @@ const profileJob = document.querySelector('.profile__subtitle');
 const formElement = document.querySelector('.popup__form');
 const nameInput = document.querySelector('.popup__text_type_name');
 const jobInput = document.querySelector('.popup__text_type_job');
+const like = document.querySelector('.element__button');
+const likes = document.querySelectorAll('.element__button');
 
 // popup opening & closing
 
@@ -36,3 +38,12 @@ function handleFormSubmit (evt) {
 }
 
 formElement.addEventListener('submit', handleFormSubmit);
+
+
+// likes
+
+likes.forEach(function (like) {
+  like.addEventListener('click', function() {
+    like.classList.toggle('element__button_clicked');
+  });
+});
