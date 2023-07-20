@@ -13,10 +13,12 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  transition: all 0.4s ease;
 }
 
 .popup__close:hover {
   opacity: 0.6;
+  transition: all 0.4s ease;
 }
 
 @media screen and (max-width: 767px) {

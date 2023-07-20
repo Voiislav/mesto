@@ -9,8 +9,10 @@
   min-height: 19px;
   align-self: center;
   background-position: center;
+  transition: all 0.2s ease;
 }
 
 .element__button:hover {
   opacity: 0.5;
+  transition: all 0.2s ease;
 }
