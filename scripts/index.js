@@ -1,16 +1,14 @@
 // variables
 
-const editPopup = document.querySelector('.popup');
-const addPopup = document.querySelector('.add-popup');
-const popupOpenButton = document.querySelector('.profile__button_type_edit');
-const popupCloseButton = document.querySelector('.popup__close');
+const editPopup = document.querySelector('.popup_type_edit');
+const addPopup = document.querySelector('.popup_type_add');
+const editPopupOpenButton = document.querySelector('.profile__button_type_edit');
 const profileName = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__subtitle');
-const formElement = document.querySelector('.popup__form');
+const profileFormElement = document.querySelector('.popup__form_type_edit');
 const nameInput = document.querySelector('.popup__text_type_name');
 const jobInput = document.querySelector('.popup__text_type_job');
 const addPopupOpenButton = document.querySelector('.profile__button_type_add');
-const addPopupCloseButton = document.querySelector('.add-popup__close');
 const profileBlock = document.querySelector('.profile');
 const initialElements = [
   {
@@ -60,40 +58,44 @@ initialElements.forEach(createByTemplate);
 
 // adding new cards by user
 
-const submitNewElement = document.querySelector('.add-popup__form');
-const imgTitleInput = document.querySelector('.add-popup__text_type_title');
-const imgLinkInput = document.querySelector('.add-popup__text_type_link');
+const submitNewElement = document.querySelector('.popup__form_type_add');
+const imgTitleInput = document.querySelector('.popup__text_type_title');
+const imgLinkInput = document.querySelector('.popup__text_type_link');
 
-
+// функция добавления новой карточки в массив
 function addToList (evt) {
   evt.preventDefault();
   const newElement = {name: imgTitleInput.value, link: imgLinkInput.value};
   newList.push(newElement);
-  closeAddPopup();
+  addPopup.classList.remove('popup_opened');
   return newList;
 };
 
-
+// функция отрисовки нового массива при добавлении нового элемента (без нового элемента будет отрисован исходный массив)
 function drawNewList () {
   const eachNewElement = elementsTemplate.cloneNode(true);
   eachNewElement.querySelector('.element__title').textContent = imgTitleInput.value;
   eachNewElement.querySelector('.element__photo').src = imgLinkInput.value;
   elementsContainer.prepend(eachNewElement);
-  closeAddPopup();
 };
 
 submitNewElement.addEventListener('submit', addToList);
 submitNewElement.addEventListener('submit', drawNewList);
 
-const removeElementButton = document.querySelector('.element__trash');
-const removeElementButtons = document.querySelectorAll('.element__trash');
 
-function removeElement(evt) {
-  const elementToRemove = evt.target.closest('.element');
-  elementToRemove.remove();
+// removing cards by user
+
+const removeButton = document.querySelector('.element__trash');
+const removeButtons = document.querySelectorAll('.element__trash');
+
+function removeElements (removeButton) {
+  removeButton.addEventListener('click', function (evt) {
+    const elementToRemove = evt.target.closest('.element');
+    elementToRemove.remove();
+  });
 };
 
-removeElementButton.addEventListener('click', removeElement);
+removeButtons.forEach(removeElements);
 
 
 // likes
@@ -101,13 +103,13 @@ removeElementButton.addEventListener('click', removeElement);
 const like = document.querySelector('.element__button');
 const likes = document.querySelectorAll('.element__button');
 
-function putLike(like) {
-  like.addEventListener('click', function() {
+function putLikes (like) {
+  like.addEventListener('click', function () {
     like.classList.toggle('element__button_clicked');
   });
 };
+likes.forEach(putLikes);
 
-likes.forEach(putLike);
 
 // changing profile data by user
 
@@ -115,36 +117,37 @@ function handleFormSubmit (evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
-  popupClose();
+  editPopup.classList.remove('popup_opened');
 }
 
-formElement.addEventListener('submit', handleFormSubmit);
+profileFormElement.addEventListener('submit', handleFormSubmit);
 
 
 // popups opening & closing
 
-function popupOpen() {
+function openEditPopup() {
   editPopup.classList.add('popup_opened');
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-}
-
-function popupClose() {
-  editPopup.classList.remove('popup_opened');
 }
 
 function openAddPopup () {
   addPopup.classList.add('popup_opened');
 }
 
-function closeAddPopup () {
-  addPopup.classList.remove('popup_opened');
-}
+const popupsCloseButton = document.querySelector('.popup__close');
+const popupsCloseButtons = document.querySelectorAll('.popup__close');
 
-popupOpenButton.addEventListener('click', popupOpen);
+function popupsClose(popupsCloseButton) {
+  popupsCloseButton.addEventListener('click', function () {
+  editPopup.classList.remove('popup_opened');
+  addPopup.classList.remove('popup_opened');
+  });
+};
+
+popupsCloseButtons.forEach(popupsClose);
+editPopupOpenButton.addEventListener('click', openEditPopup);
 addPopupOpenButton.addEventListener('click', openAddPopup);
-addPopupCloseButton.addEventListener('click', closeAddPopup);
-popupCloseButton.addEventListener('click', popupClose);
 
 
 const zoomImgButton = document.querySelectorAll('.element__zoom');

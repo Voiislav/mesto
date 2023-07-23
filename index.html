@@ -48,32 +48,32 @@
   <footer class="footer">
     <p class="footer__copywrite">&copy; 2023 Mesto Russia</p>
   </footer>
-  <section class="popup">
+  <section class="popup popup_type_edit">
     <div class="popup__container">
       <button type="button" class="popup__close" aria-label="Закрыть окно редактирования"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form class="popup__form" name="submitForm">
+      <form class="popup__form popup__form_type_edit" name="submitForm">
       <input type="text" name="name" class="popup__text popup__text_type_name" value="" placeholder="Введите имя" required>
       <input type="text" name="job" class="popup__text popup__text_type_job" value="" placeholder="Введите род занятий" required>
       <button type="submit" name="submitButton" aria-label="Сохранить изменения" class="popup__submit">Сохранить</button>
     </form>
     </div>
   </section>
-  <section class="popup add-popup">
-    <div class="popup__container add-popup__container">
-      <button type="button" class="popup__close add-popup__close" aria-label="Закрыть окно редактирования"></button>
+  <section class="popup popup_type_add">
+    <div class="popup__container">
+      <button type="button" class="popup__close" aria-label="Закрыть окно редактирования"></button>
       <h2 class="popup__title">Новое место</h2>
-      <form class="add-popup__form" name="submitForm">
-      <input type="text" name="title" class="popup__text add-popup__text_type_title" value="" placeholder="Название" required>
-      <input type="text" name="link" class="popup__text add-popup__text_type_link" value="" placeholder="Ссылка на картинку" required>
-      <button type="submit" name="submitButton" aria-label="Сохранить изменения" class="popup__submit add-popup__submit">Сохранить</button>
+      <form class="popup__form popup__form_type_add" name="submitForm">
+      <input type="text" name="title" class="popup__text popup__text_type_title" value="" placeholder="Название" required>
+      <input type="text" name="link" class="popup__text popup__text_type_link" value="" placeholder="Ссылка на картинку" required>
+      <button type="submit" name="submitButton" aria-label="Сохранить изменения" class="popup__submit popup__submit_type_add">Сохранить</button>
     </form>
     </div>
   </section>
-  <section class="popup image-popup">
-    <div class="image-popup__container">
+  <section class="popup popup_type_image">
+      <img class="image-popup__photo">
       <button type="button" class="popup__close image-popup__close" aria-label="Закрыть окно c картинкой"></button>
-      <h2 class="image-popup__title">Новое место</h2>
+      <h2 class="image-popup__title"></h2>
     </div>
   </section>
 
