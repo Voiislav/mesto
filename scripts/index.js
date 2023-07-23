@@ -12,8 +12,6 @@ const jobInput = document.querySelector('.popup__text_type_job');
 const addPopupOpenButton = document.querySelector('.profile__button_type_add');
 const addPopupCloseButton = document.querySelector('.add-popup__close');
 const profileBlock = document.querySelector('.profile');
-const elementsContainer = document.querySelector('.elements');
-const elementsTemplate = document.querySelector('.elements-template').content;
 const initialElements = [
   {
     name: 'Казань',
@@ -32,32 +30,95 @@ const initialElements = [
     link: 'https://images.unsplash.com/photo-1557094005-176cbfe3554d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1034&q=80'
   },
   {
-    name: 'Териберка',
-    link: 'https://images.unsplash.com/photo-1633780311223-7b6ffbd5a801?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=465&q=80'
+    name: 'Восточная Сибирь',
+    link: 'https://images.unsplash.com/photo-1590414731158-459a3c3d98ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
   },
   {
     name: 'Эльбрус',
     link: 'https://images.unsplash.com/photo-1582220123432-6b1a42a6e14c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1414&q=80'
   }
 ];
-const like = document.querySelector('.element__button');
-const likes = document.querySelectorAll('.element__button');
-const imgTitleInput = document.querySelector('.add-popup__text_type_title');
-const imgLinkInput = document.querySelector('.add-popup__text_type_link');
-const deleteCardButton = document.querySelectorAll('.element__trash');
+const newList = initialElements;
 
 
+// initial cards adding to DOM
 
-// initial cards adding
+const elementsContainer = document.querySelector('.elements');
+const elementsTemplate = document.querySelector('.elements-template').content;
 
-initialElements.forEach(function (element) {
+function createByTemplate (element) {
   const eachElement = elementsTemplate.cloneNode(true);
 
   eachElement.querySelector('.element__title').textContent = element.name;
   eachElement.querySelector('.element__photo').src = element.link;
 
   elementsContainer.append(eachElement);
-});
+};
+
+initialElements.forEach(createByTemplate);
+
+
+// adding new cards by user
+
+const submitNewElement = document.querySelector('.add-popup__form');
+const imgTitleInput = document.querySelector('.add-popup__text_type_title');
+const imgLinkInput = document.querySelector('.add-popup__text_type_link');
+
+
+function addToList (evt) {
+  evt.preventDefault();
+  const newElement = {name: imgTitleInput.value, link: imgLinkInput.value};
+  newList.push(newElement);
+  closeAddPopup();
+  return newList;
+};
+
+
+function drawNewList () {
+  const eachNewElement = elementsTemplate.cloneNode(true);
+  eachNewElement.querySelector('.element__title').textContent = imgTitleInput.value;
+  eachNewElement.querySelector('.element__photo').src = imgLinkInput.value;
+  elementsContainer.prepend(eachNewElement);
+  closeAddPopup();
+};
+
+submitNewElement.addEventListener('submit', addToList);
+submitNewElement.addEventListener('submit', drawNewList);
+
+const removeElementButton = document.querySelector('.element__trash');
+const removeElementButtons = document.querySelectorAll('.element__trash');
+
+function removeElement(evt) {
+  const elementToRemove = evt.target.closest('.element');
+  elementToRemove.remove();
+};
+
+removeElementButton.addEventListener('click', removeElement);
+
+
+// likes
+
+const like = document.querySelector('.element__button');
+const likes = document.querySelectorAll('.element__button');
+
+function putLike(like) {
+  like.addEventListener('click', function() {
+    like.classList.toggle('element__button_clicked');
+  });
+};
+
+likes.forEach(putLike);
+
+// changing profile data by user
+
+function handleFormSubmit (evt) {
+  evt.preventDefault();
+  profileName.textContent = nameInput.value;
+  profileJob.textContent = jobInput.value;
+  popupClose();
+}
+
+formElement.addEventListener('submit', handleFormSubmit);
 
 
 // popups opening & closing
@@ -86,31 +147,4 @@ addPopupCloseButton.addEventListener('click', closeAddPopup);
 popupCloseButton.addEventListener('click', popupClose);
 
 
-// submits
-
-function handleFormSubmit (evt) {
-  evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  popupClose();
-}
-
-formElement.addEventListener('submit', handleFormSubmit);
-
-
-// likes
-
-likes.forEach(function (like) {
-  like.addEventListener('click', function() {
-    like.classList.toggle('element__button_clicked');
-  });
-});
-
-// adding new cards by user
-
-
-
-
-// deleting cards by user
-
-
+const zoomImgButton = document.querySelectorAll('.element__zoom');
