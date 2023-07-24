@@ -7,5 +7,6 @@
   max-height: 75vh;
   padding: 0;
   gap: 10px;
-  position: relative;
+  background: none;
+  border-radius: 0;
 }
