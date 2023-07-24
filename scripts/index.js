@@ -1,15 +1,5 @@
-// variables
+// initial cards adding to DOM
 
-const editPopup = document.querySelector('.popup_type_edit');
-const addPopup = document.querySelector('.popup_type_add');
-const editPopupOpenButton = document.querySelector('.profile__button_type_edit');
-const profileName = document.querySelector('.profile__title');
-const profileJob = document.querySelector('.profile__subtitle');
-const profileFormElement = document.querySelector('.popup__form_type_edit');
-const nameInput = document.querySelector('.popup__text_type_name');
-const jobInput = document.querySelector('.popup__text_type_job');
-const addPopupOpenButton = document.querySelector('.profile__button_type_add');
-const profileBlock = document.querySelector('.profile');
 const initialElements = [
   {
     name: 'Казань',
@@ -36,11 +26,6 @@ const initialElements = [
     link: 'https://images.unsplash.com/photo-1582220123432-6b1a42a6e14c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1414&q=80'
   }
 ];
-const newList = initialElements;
-
-
-// initial cards adding to DOM
-
 const elementsContainer = document.querySelector('.elements');
 const elementsTemplate = document.querySelector('.elements-template').content;
 
@@ -61,6 +46,7 @@ initialElements.forEach(createByTemplate);
 const submitNewElement = document.querySelector('.popup__form_type_add');
 const imgTitleInput = document.querySelector('.popup__text_type_title');
 const imgLinkInput = document.querySelector('.popup__text_type_link');
+const newList = initialElements;
 
 // функция добавления новой карточки в массив
 function addToList (evt) {
@@ -68,19 +54,34 @@ function addToList (evt) {
   const newElement = {name: imgTitleInput.value, link: imgLinkInput.value};
   newList.push(newElement);
   addPopup.classList.remove('popup_opened');
-  return newList;
 };
 
 // функция отрисовки нового массива при добавлении нового элемента (без нового элемента будет отрисован исходный массив)
 function drawNewList () {
   const eachNewElement = elementsTemplate.cloneNode(true);
+  
   eachNewElement.querySelector('.element__title').textContent = imgTitleInput.value;
   eachNewElement.querySelector('.element__photo').src = imgLinkInput.value;
+  
   elementsContainer.prepend(eachNewElement);
 };
 
 submitNewElement.addEventListener('submit', addToList);
 submitNewElement.addEventListener('submit', drawNewList);
+
+
+// likes
+
+const like = document.querySelector('.element__button');
+const likes = document.querySelectorAll('.element__button');
+
+function putLikes (like) {
+  like.addEventListener('click', function () {
+    like.classList.toggle('element__button_clicked');
+  });
+};
+
+likes.forEach(putLikes);
 
 
 // removing cards by user
@@ -98,35 +99,36 @@ function removeElements (removeButton) {
 removeButtons.forEach(removeElements);
 
 
-// likes
-
-const like = document.querySelector('.element__button');
-const likes = document.querySelectorAll('.element__button');
-
-function putLikes (like) {
-  like.addEventListener('click', function () {
-    like.classList.toggle('element__button_clicked');
-  });
-};
-likes.forEach(putLikes);
-
-
 // changing profile data by user
+
+const profileFormElement = document.querySelector('.popup__form_type_edit');
 
 function handleFormSubmit (evt) {
   evt.preventDefault();
+  
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
+  
   editPopup.classList.remove('popup_opened');
 }
 
 profileFormElement.addEventListener('submit', handleFormSubmit);
 
 
-// popups opening & closing
+// edit/add popups opening & all popups closing 
+
+const editPopup = document.querySelector('.popup_type_edit');
+const addPopup = document.querySelector('.popup_type_add');
+const editPopupOpenButton = document.querySelector('.profile__button_type_edit');
+const profileName = document.querySelector('.profile__title');
+const profileJob = document.querySelector('.profile__subtitle');
+const nameInput = document.querySelector('.popup__text_type_name');
+const jobInput = document.querySelector('.popup__text_type_job');
+const addPopupOpenButton = document.querySelector('.profile__button_type_add');
 
 function openEditPopup() {
   editPopup.classList.add('popup_opened');
+  
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 }
@@ -140,14 +142,41 @@ const popupsCloseButtons = document.querySelectorAll('.popup__close');
 
 function popupsClose(popupsCloseButton) {
   popupsCloseButton.addEventListener('click', function () {
+  
   editPopup.classList.remove('popup_opened');
   addPopup.classList.remove('popup_opened');
+  imagePopup.classList.remove('popup_opened');
+  
   });
 };
 
 popupsCloseButtons.forEach(popupsClose);
+
 editPopupOpenButton.addEventListener('click', openEditPopup);
+
 addPopupOpenButton.addEventListener('click', openAddPopup);
 
 
-const zoomImgButton = document.querySelectorAll('.element__zoom');
+// image popups opening
+
+const imagePopup = document.querySelector('.popup_type_image');
+const openImagePopupButton = document.querySelector('.element__zoom');
+const openImagePopupButtons = document.querySelectorAll('.element__zoom');
+const imagePopupTitle = document.querySelector('.popup__title_type_image');
+const imagePopupPhoto = document.querySelector('.popup__image');
+const elementPhoto = document.querySelector('.element__photo');
+const elementTitle = document.querySelector('.element__title');
+
+function imagePopupsOpen (openImagePopupButton) {
+  openImagePopupButton.addEventListener('click', function (openImagePopupButton) {
+    const elementToLoad = openImagePopupButton.target.closest('.element');
+    const photoToLoad = elementToLoad.querySelector('.element__photo');
+    const titleToLoad = elementToLoad.querySelector('.element__title');
+    imagePopupPhoto.src = photoToLoad.src;
+    imagePopupTitle.textContent = titleToLoad.textContent;
+    imagePopup.classList.add('popup_opened');
+  });
+};
+openImagePopupButtons.forEach(imagePopupsOpen);
+
+

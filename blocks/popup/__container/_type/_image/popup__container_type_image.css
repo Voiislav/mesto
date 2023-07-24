@@ -1,0 +1,11 @@
+.popup__container_type_image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 75vw;
+  max-height: 75vh;
+  padding: 0;
+  gap: 10px;
+  position: relative;
+}
