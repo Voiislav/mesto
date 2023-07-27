@@ -33,6 +33,7 @@ const createElement = element => {
   // image popups (listener)
 
   const openImagePopupButton = eachElement.querySelector('.element__zoom');
+  const imagePopup = document.querySelector('.popup_type_image');
 
   openImagePopupButton.addEventListener('click', function (openImagePopupButton) {
     const elementToLoad = openImagePopupButton.target.closest('.element');
@@ -41,7 +42,7 @@ const createElement = element => {
     imagePopupPhoto.src = photoToLoad.src;
     imagePopupPhoto.alt = 'На фото - ' + titleToLoad.textContent;
     imagePopupTitle.textContent = titleToLoad.textContent;
-    openImagePopup();
+    openPopup(imagePopup);
   });
 
   return eachElement;
@@ -59,14 +60,13 @@ initialElements.forEach(addInitialElement);
 const submitNewElement = document.querySelector('.popup__form_type_add');
 const imgTitleInput = document.querySelector('.popup__text_type_title');
 const imgLinkInput = document.querySelector('.popup__text_type_link');
-const addPopup = document.querySelector('.popup_type_add');
 
 const addNewElement = evt => {
   evt.preventDefault();
   const newElement = {name: imgTitleInput.value, link: imgLinkInput.value};
   elementsContainer.prepend(createElement(newElement));
   submitNewElement.reset();
-  closePopup(evt);
+  closePopup(addPopup);
 };
 
 submitNewElement.addEventListener('submit', addNewElement);
@@ -74,9 +74,9 @@ submitNewElement.addEventListener('submit', addNewElement);
 
 // popups closing
 
-// universal closing function
+// closing of closest to event
 
-const closePopup = (evt) => {
+const closePopupByButton = (evt) => {
   const closingPopup = evt.target.closest('.popup');
   closingPopup.classList.remove('popup_opened');
 };
@@ -87,7 +87,7 @@ const popupsCloseButton = document.querySelector('.popup__close');
 const popupsCloseButtons = document.querySelectorAll('.popup__close');
 
 const initPopupCloseButton = popupsCloseButton => {
-  popupsCloseButton.addEventListener('click', closePopup);
+  popupsCloseButton.addEventListener('click', closePopupByButton);
 }
 
 popupsCloseButtons.forEach(initPopupCloseButton);
@@ -101,43 +101,35 @@ const handleFormSubmit = evt => {
   evt.preventDefault();  
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
-  closePopup(evt);
+  closePopup(editPopup);
 };
 
 profileFormElement.addEventListener('submit', handleFormSubmit);
 
 
-// edit/add popups opening & all popups closing 
+// all popups opening & closing (universal functions)
 
-const editPopup = document.querySelector('.popup_type_edit');
-const imagePopup = document.querySelector('.popup_type_image');
 const editPopupOpenButton = document.querySelector('.profile__button_type_edit');
 const profileName = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__subtitle');
 const nameInput = document.querySelector('.popup__text_type_name');
 const jobInput = document.querySelector('.popup__text_type_job');
 const addPopupOpenButton = document.querySelector('.profile__button_type_add');
+const editPopup = document.querySelector('.popup_type_edit');
+const addPopup = document.querySelector('.popup_type_add');
 
-const addInputsInitialValue = () => {
+editPopupOpenButton.addEventListener('click', function () {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+  openPopup(editPopup);
+});
+
+const openPopup = popup => {
+  popup.classList.add('popup_opened');
 };
 
-const openEditPopup = () => {
-  editPopup.classList.add('popup_opened');
-  addInputsInitialValue();
+addPopupOpenButton.addEventListener('click', () => openPopup(addPopup));
+
+const closePopup = popup => {
+  popup.classList.remove('popup_opened');
 };
-
-const openAddPopup = () => {
-  addPopup.classList.add('popup_opened');
-};
-
-const openImagePopup = () => {
-  imagePopup.classList.add('popup_opened');
-}
-
-editPopupOpenButton.addEventListener('click', openEditPopup);
-
-addPopupOpenButton.addEventListener('click', openAddPopup);
-
-
