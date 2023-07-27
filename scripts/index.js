@@ -78,7 +78,7 @@ submitNewElement.addEventListener('submit', addNewElement);
 
 const closePopupByButton = (evt) => {
   const closingPopup = evt.target.closest('.popup');
-  closingPopup.classList.remove('popup_opened');
+  closePopup(closingPopup);
 };
 
 // closing by button "close"
