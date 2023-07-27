@@ -14,50 +14,35 @@ const createElement = element => {
   // likes (listener)
 
   const like = eachElement.querySelector('.element__button');
-  const likes = eachElement.querySelectorAll('.element__button');
 
-
-  const putLikes = like => {
-    like.addEventListener('click', function () {
+  like.addEventListener('click', function () {
       like.classList.toggle('element__button_clicked');
-    });
-  };
+  });
 
-  likes.forEach(putLikes);
 
   // removing cards by user (listener)
 
   const removeButton = eachElement.querySelector('.element__trash');
-  const removeButtons = eachElement.querySelectorAll('.element__trash');
 
-  const removeElements = removeButton => {
-    removeButton.addEventListener('click', function (evt) {
-      const elementToRemove = evt.target.closest('.element');
-      elementToRemove.remove();
-    });
-  };
+  removeButton.addEventListener('click', function (evt) {
+    const elementToRemove = evt.target.closest('.element');
+    elementToRemove.remove();
+  });
 
-  removeButtons.forEach(removeElements);
 
   // image popups (listener)
 
   const openImagePopupButton = eachElement.querySelector('.element__zoom');
-  const openImagePopupButtons = eachElement.querySelectorAll('.element__zoom');
-  const elementPhoto = eachElement.querySelector('.element__photo');
-  const elementTitle = eachElement.querySelector('.element__title');
 
-  const openImagePopups = openImagePopupButton => {
-    openImagePopupButton.addEventListener('click', function (openImagePopupButton) {
-      const elementToLoad = openImagePopupButton.target.closest('.element');
-      const photoToLoad = elementToLoad.querySelector('.element__photo');
-      const titleToLoad = elementToLoad.querySelector('.element__title');
-      imagePopupPhoto.src = photoToLoad.src;
-      imagePopupPhoto.alt = 'На фото - ' + titleToLoad.textContent;
-      imagePopupTitle.textContent = titleToLoad.textContent;
-      openImagePopup();
-    });
-  };
-  openImagePopupButtons.forEach(openImagePopups);
+  openImagePopupButton.addEventListener('click', function (openImagePopupButton) {
+    const elementToLoad = openImagePopupButton.target.closest('.element');
+    const photoToLoad = elementToLoad.querySelector('.element__photo');
+    const titleToLoad = elementToLoad.querySelector('.element__title');
+    imagePopupPhoto.src = photoToLoad.src;
+    imagePopupPhoto.alt = 'На фото - ' + titleToLoad.textContent;
+    imagePopupTitle.textContent = titleToLoad.textContent;
+    openImagePopup();
+  });
 
   return eachElement;
 };
@@ -81,27 +66,31 @@ const addNewElement = evt => {
   const newElement = {name: imgTitleInput.value, link: imgLinkInput.value};
   elementsContainer.prepend(createElement(newElement));
   submitNewElement.reset();
-  addPopup.classList.remove('popup_opened');
+  closePopup(evt);
 };
 
 submitNewElement.addEventListener('submit', addNewElement);
 
+
 // popups closing
+
+// universal closing function
+
+const closePopup = (evt) => {
+  const closingPopup = evt.target.closest('.popup');
+  closingPopup.classList.remove('popup_opened');
+};
+
+// closing by button "close"
 
 const popupsCloseButton = document.querySelector('.popup__close');
 const popupsCloseButtons = document.querySelectorAll('.popup__close');
 
 const initPopupCloseButton = popupsCloseButton => {
-  const popupToCloseByButton = popupsCloseButton.target.closest('.popup');
-  popupToCloseByButton.classList.remove('popup_opened');
-};
+  popupsCloseButton.addEventListener('click', closePopup);
+}
 
-const popupClose = popupsCloseButton => {
-  popupsCloseButton.addEventListener('click', initPopupCloseButton);
-};
-
-popupsCloseButtons.forEach(popupClose);
-
+popupsCloseButtons.forEach(initPopupCloseButton);
 
 
 // changing profile data by user
@@ -111,8 +100,8 @@ const profileFormElement = document.querySelector('.popup__form_type_edit');
 const handleFormSubmit = evt => {
   evt.preventDefault();  
   profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;  
-  editPopup.classList.remove('popup_opened');
+  profileJob.textContent = jobInput.value;
+  closePopup(evt);
 };
 
 profileFormElement.addEventListener('submit', handleFormSubmit);
