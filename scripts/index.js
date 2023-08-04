@@ -72,7 +72,7 @@ const addNewElement = evt => {
 submitNewElement.addEventListener('submit', addNewElement);
 
 
-// popups closing (close button, click on overlay, Esc):
+// popups closing (close button, click on overlay):
 
 // universal function: closing of closest to event
 
@@ -114,11 +114,6 @@ const closePopupByOverlayClick = (popupOverlay) => {
 popupOverlays.forEach(closePopupByOverlayClick);
 
 
-// closing by ESC key
-
-
-
-
 // changing profile data by user
 
 const profileFormElement = document.querySelector('.popup__form_type_edit');
@@ -150,12 +145,21 @@ editPopupOpenButton.addEventListener('click', () => {
   openPopup(editPopup);
 });
 
+const addClosingByEsc = (evt) => {
+  if (evt.keyCode === 27) {
+    evt.preventDefault();
+    closePopupByButton(evt);
+  }
+};
+
 const openPopup = popup => {
   popup.classList.add('popup_opened');
+  popup.addEventListener('keydown', addClosingByEsc);
 };
 
 addPopupOpenButton.addEventListener('click', () => openPopup(addPopup));
 
 const closePopup = popup => {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('keydown', addClosingByEsc);
 };
