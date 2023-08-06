@@ -8,7 +8,6 @@ const submitButtonActive = document.querySelector('.popup__submit');
 const submitButtonInactive = document.querySelector('.popup__submit_disabled');
 
 
-
 const setSumbitButtonState = (isValid) => {
   if (isValid) {
     submitButtonActive.classList.add('popup__submit');

@@ -15,11 +15,7 @@ const createElement = element => {
 
   const like = eachElement.querySelector('.element__button');
 
-<<<<<<< HEAD
-  like.addEventListener('click', function () {
-=======
   like.addEventListener('click', () => {
->>>>>>> develop
       like.classList.toggle('element__button_clicked');
   });
 
@@ -28,20 +24,6 @@ const createElement = element => {
 
   const removeButton = eachElement.querySelector('.element__trash');
 
-<<<<<<< HEAD
-  removeButton.addEventListener('click', function (evt) {
-    const elementToRemove = evt.target.closest('.element');
-    elementToRemove.remove();
-  });
-
-
-  // image popups (listener)
-
-  const openImagePopupButton = eachElement.querySelector('.element__zoom');
-  const imagePopup = document.querySelector('.popup_type_image');
-
-  openImagePopupButton.addEventListener('click', function (openImagePopupButton) {
-=======
   removeButton.addEventListener('click', (evt) => {
     const elementToRemove = evt.target.closest('.element');
     elementToRemove.remove();
@@ -54,7 +36,6 @@ const createElement = element => {
   const imagePopup = document.querySelector('.popup_type_image');
 
   openImagePopupButton.addEventListener('click', (openImagePopupButton) => {
->>>>>>> develop
     const elementToLoad = openImagePopupButton.target.closest('.element');
     const photoToLoad = elementToLoad.querySelector('.element__photo');
     const titleToLoad = elementToLoad.querySelector('.element__title');
@@ -89,29 +70,6 @@ const addNewElement = evt => {
 };
 
 submitNewElement.addEventListener('submit', addNewElement);
-<<<<<<< HEAD
-
-
-// popups closing
-
-// closing of closest to event
-
-const closePopupByButton = (evt) => {
-  const closingPopup = evt.target.closest('.popup');
-  closePopup(closingPopup);
-};
-
-// closing by button "close"
-
-const popupsCloseButton = document.querySelector('.popup__close');
-const popupsCloseButtons = document.querySelectorAll('.popup__close');
-
-const initPopupCloseButton = popupsCloseButton => {
-  popupsCloseButton.addEventListener('click', closePopupByButton);
-}
-
-popupsCloseButtons.forEach(initPopupCloseButton);
-=======
 
 
 // popups closing (close button, click on overlay):
@@ -164,7 +122,6 @@ const closePopupByEsc = (evt) => {
     closePopup(evt.currentTarget.querySelector('.popup_opened'));
   };
 };
->>>>>>> develop
 
 
 // changing profile data by user
@@ -192,11 +149,7 @@ const addPopupOpenButton = document.querySelector('.profile__button_type_add');
 const editPopup = document.querySelector('.popup_type_edit');
 const addPopup = document.querySelector('.popup_type_add');
 
-<<<<<<< HEAD
-editPopupOpenButton.addEventListener('click', function () {
-=======
 editPopupOpenButton.addEventListener('click', () => {
->>>>>>> develop
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   openPopup(editPopup);
@@ -204,18 +157,12 @@ editPopupOpenButton.addEventListener('click', () => {
 
 const openPopup = popup => {
   popup.classList.add('popup_opened');
-<<<<<<< HEAD
-=======
   document.addEventListener('keydown', closePopupByEsc);
->>>>>>> develop
 };
 
 addPopupOpenButton.addEventListener('click', () => openPopup(addPopup));
 
 const closePopup = popup => {
   popup.classList.remove('popup_opened');
-<<<<<<< HEAD
-=======
   document.removeEventListener('keydown', closePopupByEsc);
->>>>>>> develop
 };

@@ -8,11 +8,7 @@
   <link rel="stylesheet" href="./pages/index.css">
   <script defer src="./scripts/constants.js"></script>
   <script defer src="./scripts/index.js"></script>
-<<<<<<< HEAD
-  <script defer src="./scripts/validation.js"></script>
-=======
   <script defer src="./scripts/validate.js"></script>
->>>>>>> develop
   <title>Место</title>
 </head>
 
@@ -59,8 +55,8 @@
       <button type="button" class="popup__close" aria-label="Закрыть окно редактирования"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
       <form class="popup__form popup__form_type_edit" name="submitForm">
-        <input type="text" name="name" class="popup__text popup__text_type_name" value="" placeholder="Введите имя" required>
-        <input type="text" name="job" class="popup__text popup__text_type_job" value="" placeholder="Введите род занятий" required>
+        <input type="text" name="name" id="user-name" class="popup__text popup__text_type_name" value="" placeholder="Введите имя" required minlength="2" maxlength="40">
+        <input type="text" name="job" id="user-job" class="popup__text popup__text_type_job" value="" placeholder="Введите род занятий" required minlength="2" maxlength="200">
         <button type="submit" name="submitButton" aria-label="Сохранить изменения" class="popup__submit popup__submit_type_edit">Сохранить</button>
       </form>
     </div>
@@ -70,9 +66,9 @@
       <button type="button" class="popup__close" aria-label="Закрыть окно редактирования"></button>
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form popup__form_type_add" name="submitForm">
-        <input type="text" name="title" class="popup__text popup__text_type_title" placeholder="Название" required>
-        <input type="url" name="link" class="popup__text popup__text_type_link" placeholder="Ссылка на картинку" required>
-        <button type="submit" name="submitButton" aria-label="Сохранить изменения" class="popup__submit popup__submit_type_add">Сохранить</button>
+        <input type="text" name="title" id="place-title" class="popup__text popup__text_type_title" placeholder="Название" required minlength="2" maxlength="30">
+        <input type="url" name="link" id="place-link" class="popup__text popup__text_type_link" placeholder="Ссылка на картинку" required>
+        <button type="submit" name="submitButton" aria-label="Сохранить изменения" class="popup__submit_disabled popup__submit_type_add" disabled>Создать</button>
       </form>
     </div>
   </section>
