@@ -14,12 +14,10 @@ const setSumbitButtonState = (isValid) => {
     submitButtonActive.classList.remove('popup__submit_disabled');
     submitButtonInactive.classList.add('popup__submit');
     submitButtonInactive.classList.remove('popup__submit_disabled');
-    console.log('valid');
   }
   else {
     submitButtonActive.classList.add('popup__submit_disabled');
     submitButtonActive.classList.remove('popup__submit');
-    console.log('not valid');
   }
 };
 
