@@ -114,6 +114,16 @@ const closePopupByOverlayClick = (popupOverlay) => {
 popupOverlays.forEach(closePopupByOverlayClick);
 
 
+// close popup by Esc
+
+const closePopupByEsc = (evt) => {
+  if (evt.keyCode === 27) {
+    evt.preventDefault();
+    closePopup(evt.currentTarget.querySelector('.popup_opened'));
+  };
+};
+
+
 // changing profile data by user
 
 const profileFormElement = document.querySelector('.popup__form_type_edit');
@@ -145,21 +155,14 @@ editPopupOpenButton.addEventListener('click', () => {
   openPopup(editPopup);
 });
 
-const addClosingByEsc = (evt) => {
-  if (evt.keyCode === 27) {
-    evt.preventDefault();
-    closePopupByButton(evt);
-  }
-};
-
 const openPopup = popup => {
   popup.classList.add('popup_opened');
-  popup.addEventListener('keydown', addClosingByEsc);
+  document.addEventListener('keydown', closePopupByEsc);
 };
 
 addPopupOpenButton.addEventListener('click', () => openPopup(addPopup));
 
 const closePopup = popup => {
   popup.classList.remove('popup_opened');
-  popup.removeEventListener('keydown', addClosingByEsc);
+  document.removeEventListener('keydown', closePopupByEsc);
 };
