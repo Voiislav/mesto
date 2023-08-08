@@ -21,6 +21,9 @@ const changeButtonState = (isValid, submitButton, submitButtonInactive) => {
     submitButton.setAttribute('disabled', true);
     submitButton.classList.add('popup__submit_disabled');
     submitButton.classList.remove('popup__submit');
+    submitButtonInactive.setAttribute('disabled', true);
+    submitButtonInactive.classList.remove('popup__submit');
+    submitButtonInactive.classList.add('popup__submit_disabled');
   }
 };
 
