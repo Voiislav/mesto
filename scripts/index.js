@@ -117,7 +117,7 @@ popupOverlays.forEach(closePopupByOverlayClick);
 // close popup by Esc
 
 const closePopupByEsc = (evt) => {
-  if (evt.keyCode === 27) {
+  if (evt.key === 'Escape') {
     evt.preventDefault();
     closePopup(evt.currentTarget.querySelector('.popup_opened'));
   };
@@ -148,6 +148,7 @@ const jobInput = document.querySelector('.popup__text_type_job');
 const addPopupOpenButton = document.querySelector('.profile__button_type_add');
 const editPopup = document.querySelector('.popup_type_edit');
 const addPopup = document.querySelector('.popup_type_add');
+const submitButtonInactive = document.querySelector('.popup__submit_disabled');
 
 editPopupOpenButton.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
@@ -160,7 +161,13 @@ const openPopup = popup => {
   document.addEventListener('keydown', closePopupByEsc);
 };
 
-addPopupOpenButton.addEventListener('click', () => openPopup(addPopup));
+addPopupOpenButton.addEventListener('click', () => {
+  openPopup(addPopup);
+  imgTitleInput.textContent = '';
+  imgLinkInput.textContent = '';
+  submitButtonInactive.classList.add('popup__submit_disabled');
+  submitButtonInactive.setAttribute('disabled', true);
+});
 
 const closePopup = popup => {
   popup.classList.remove('popup_opened');
