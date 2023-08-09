@@ -1,7 +1,7 @@
-const checkInputValidity = (formElement, formInput) => {
-  const inputError = formElement.querySelector(`#${formInput.id}-error`);
-  if (!formInput.checkValidity()) {
-    inputError.textContent = formInput.validationMessage;
+const checkInputValidity = (form, input, validationSettings) => {
+  const inputError = form.querySelector(`#${input.id}-error`);
+  if (!input.checkValidity()) {
+    inputError.textContent = input.validationMessage;
   }
   else {
     inputError.textContent = '';
@@ -10,12 +10,12 @@ const checkInputValidity = (formElement, formInput) => {
 
 const changeButtonState = (isValid, submitButton, submitButtonInactive) => {
   if (isValid) {
-    submitButtonInactive.removeAttribute('disabled', false);
-    submitButtonInactive.classList.add('popup__submit');
-    submitButtonInactive.classList.remove('popup__submit_disabled');
     submitButton.removeAttribute('disabled', false);
     submitButton.classList.add('popup__submit');
     submitButton.classList.remove('popup__submit_disabled');
+    submitButtonInactive.removeAttribute('disabled', false);
+    submitButtonInactive.classList.add('popup__submit');
+    submitButtonInactive.classList.remove('popup__submit_disabled');
   }
   else {
     submitButton.setAttribute('disabled', true);
@@ -27,19 +27,19 @@ const changeButtonState = (isValid, submitButton, submitButtonInactive) => {
   }
 };
 
-const setEventListeners = () => {
-  const formElements = Array.from(document.querySelectorAll('.popup__form'));
-  formElements.forEach((formElement) => {
-    const submitButton = document.querySelector('.popup__submit');
-    const submitButtonInactive = document.querySelector('.popup__submit_disabled');
-    formElement.addEventListener('submit', (evt) => {
+const setEventListeners = (validationSettings) => {
+  const forms = Array.from(document.querySelectorAll(validationSettings.formElement));
+  forms.forEach((form) => {
+    const submitButton = form.querySelector(validationSettings.submitButton);
+    const submitButtonInactive = form.querySelector(validationSettings.submitButtonInactive);
+    form.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
-    const formInputs = Array.from(formElement.querySelectorAll('.popup__text'));
-    formInputs.forEach((formInput) => {
-      formInput.addEventListener('input', () => {
-        checkInputValidity(formElement, formInput);
-        if (!formElement.checkValidity()) {
+    const inputs = Array.from(form.querySelectorAll(validationSettings.formInput));
+    inputs.forEach((input) => {
+      input.addEventListener('input', () => {
+        checkInputValidity(form, input, validationSettings);
+        if (!form.checkValidity()) {
           changeButtonState(false, submitButton, submitButtonInactive); 
         }
         else {
@@ -50,8 +50,8 @@ const setEventListeners = () => {
   });
 };
 
-const enableValidation = () => {
-  setEventListeners();
+const enableValidation = (validationSettings) => {
+  setEventListeners(validationSettings);
 };
 
 enableValidation({
@@ -61,11 +61,6 @@ enableValidation({
   submitButtonInactive: '.popup__submit_disabled',
   inputErrorClass: '.popup__text_type_error'
 });
-
-
-
-
-
 
 
 // const formElement = document.querySelector('.popup__form');
