@@ -8,30 +8,19 @@ const checkInputValidity = (form, input, validationSettings) => {
   }
 };
 
-const changeButtonState = (isValid, submitButton, submitButtonInactive) => {
+const changeButtonState = (isValid, buttonElement) => {
   if (isValid) {
-    submitButton.removeAttribute('disabled', false);
-    submitButton.classList.add('popup__submit');
-    submitButton.classList.remove('popup__submit_disabled');
-    submitButtonInactive.removeAttribute('disabled', false);
-    submitButtonInactive.classList.add('popup__submit');
-    submitButtonInactive.classList.remove('popup__submit_disabled');
+    buttonElement.removeAttribute('disabled', false);
   }
   else {
-    submitButton.setAttribute('disabled', true);
-    submitButton.classList.add('popup__submit_disabled');
-    submitButton.classList.remove('popup__submit');
-    submitButtonInactive.setAttribute('disabled', true);
-    submitButtonInactive.classList.remove('popup__submit');
-    submitButtonInactive.classList.add('popup__submit_disabled');
+    buttonElement.setAttribute('disabled', true);
   }
 };
 
 const setEventListeners = (validationSettings) => {
   const forms = Array.from(document.querySelectorAll(validationSettings.formElement));
   forms.forEach((form) => {
-    const submitButton = form.querySelector(validationSettings.submitButton);
-    const submitButtonInactive = form.querySelector(validationSettings.submitButtonInactive);
+    const buttonElement = form.querySelector(validationSettings.submitButtonSelector);
     form.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
@@ -40,15 +29,16 @@ const setEventListeners = (validationSettings) => {
       input.addEventListener('input', () => {
         checkInputValidity(form, input, validationSettings);
         if (!form.checkValidity()) {
-          changeButtonState(false, submitButton, submitButtonInactive); 
+          changeButtonState(false, buttonElement);
         }
         else {
-          changeButtonState(true, submitButton, submitButtonInactive);
+          changeButtonState(true, buttonElement);
         };
       });
     });
   });
 };
+
 
 const enableValidation = (validationSettings) => {
   setEventListeners(validationSettings);
@@ -57,8 +47,7 @@ const enableValidation = (validationSettings) => {
 enableValidation({
   formElement: '.popup__form',
   formInput: '.popup__text',
-  submitButton: '.popup__submit',
-  submitButtonInactive: '.popup__submit_disabled',
+  submitButtonSelector: '.popup__submit',
   inputErrorClass: '.popup__text_type_error'
 });
 
