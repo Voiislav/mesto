@@ -1,65 +1,9 @@
-// creating cards
-
-const elementsTemplate = document.querySelector('.elements-template').content;
-const elementsContainer = document.querySelector('.elements');
-const imagePopupTitle = document.querySelector('.popup__title_type_image');
-const imagePopupPhoto = document.querySelector('.popup__image');
-
-const createElement = element => {
-  const eachElement = elementsTemplate.cloneNode(true);
-  eachElement.querySelector('.element__title').textContent = element.name;
-  eachElement.querySelector('.element__photo').src = element.link;
-  eachElement.querySelector('.element__photo').alt = 'На фото - ' + element.name;
-
-  // likes (listener)
-
-  const like = eachElement.querySelector('.element__button');
-
-  like.addEventListener('click', () => {
-      like.classList.toggle('element__button_clicked');
-  });
-
-
-  // removing cards by user (listener)
-
-  const removeButton = eachElement.querySelector('.element__trash');
-
-  removeButton.addEventListener('click', (evt) => {
-    const elementToRemove = evt.target.closest('.element');
-    elementToRemove.remove();
-  });
-
-
-  // image popups (listener)
-
-  const openImagePopupButton = eachElement.querySelector('.element__zoom');
-  const imagePopup = document.querySelector('.popup_type_image');
-
-  openImagePopupButton.addEventListener('click', (openImagePopupButton) => {
-    const elementToLoad = openImagePopupButton.target.closest('.element');
-    const photoToLoad = elementToLoad.querySelector('.element__photo');
-    const titleToLoad = elementToLoad.querySelector('.element__title');
-    imagePopupPhoto.src = photoToLoad.src;
-    imagePopupPhoto.alt = 'На фото - ' + titleToLoad.textContent;
-    imagePopupTitle.textContent = titleToLoad.textContent;
-    openPopup(imagePopup);
-  });
-
-  return eachElement;
-};
-
-const addInitialElement = element => {
-  const initialElement = createElement(element);  
-  elementsContainer.append(initialElement);
-};
-
-initialElements.forEach(addInitialElement);
-
 // adding new cards by user
 
 const submitNewElement = document.querySelector('.popup__form_type_add');
 const imgTitleInput = document.querySelector('.popup__text_type_title');
 const imgLinkInput = document.querySelector('.popup__text_type_link');
+const elementsContainer = document.querySelector('.elements');
 
 const addNewElement = evt => {
   evt.preventDefault();

@@ -1,0 +1,68 @@
+const imagePopupPhoto = document.querySelector('.popup__image');
+const imagePopupTitle = document.querySelector('.popup__title_type_image');
+const imagePopup = document.querySelector('.popup_type_image');
+
+class Card {
+  constructor(data, templateSelector) {
+    this._name = data.name;
+    this._link = data.link;
+    this._templateSelector = templateSelector;
+  }
+
+  _createCard() {
+    this._element = this._getTemplate();
+    this._element.querySelector('.element__photo').src = this._link;
+    this._element.querySelector('.element__photo').alt = "На фото - " + this._name;
+    this._element.querySelector('.element__title').textContent = this._name;
+    this._likeButton = this._element.querySelector('.element__button');
+    this._removeButton = this._element.querySelector('.element__trash');
+    this._zoomButton = this._element.querySelector('.element__zoom');
+
+    return this._element;
+  }
+
+  _likeHandler() {
+    this._likeButton.classList.toggle('element__button_clicked');
+  }
+
+  _removeHandler(evt) {
+    const elementToRemove = evt.target.closest('.element');
+    elementToRemove.remove();
+  }
+
+  _zoomImageHandler() {
+    imagePopupPhoto.src = this._link;
+    imagePopupPhoto.alt = "На фото - " + this._name;
+    imagePopupTitle.textContent = this._name;
+    imagePopup.classList.add('popup_opened');
+  }
+
+  _getTemplate() {
+    const cardElement = document
+    .querySelector(this._templateSelector)
+    .content
+    .querySelector('.element')
+    .cloneNode(true);
+
+    return cardElement;
+  }
+
+  _setEventListeners() {
+    this._likeButton.addEventListener('click', () => {
+      this._likeHandler ();
+    })
+    this._removeButton.addEventListener('click', (evt) => {
+      this._removeHandler (evt);
+    })
+    this._zoomButton.addEventListener('click', () => {
+      this._zoomImageHandler();
+    })
+  }
+}
+
+initialElements.forEach((initialElement) => {
+  const card = new Card(initialElement, '.elements-template');
+  const cardElement = card._createCard();
+  card._setEventListeners();
+  document.querySelector('.elements').append(cardElement);
+})
