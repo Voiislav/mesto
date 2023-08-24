@@ -18,7 +18,7 @@ This project is one-page responsive website in russian with content that can be 
 
 * HTML 5
 * CSS 3 (using Flexbox, Grid Layout, media queries)
-* JavaScript
+* JavaScript (+ OOP principles)
 
 **Design**
 

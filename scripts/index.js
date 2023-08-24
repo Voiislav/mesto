@@ -1,23 +1,3 @@
-// adding new cards by user
-
-const submitNewElement = document.querySelector('.popup__form_type_add');
-const imgTitleInput = document.querySelector('.popup__text_type_title');
-const imgLinkInput = document.querySelector('.popup__text_type_link');
-const elementsContainer = document.querySelector('.elements');
-
-const addNewElement = evt => {
-  evt.preventDefault();
-  const newElement = {name: imgTitleInput.value, link: imgLinkInput.value};
-  elementsContainer.prepend(createElement(newElement));
-  submitNewElement.reset();
-  closePopup(addPopup);
-};
-
-submitNewElement.addEventListener('submit', addNewElement);
-
-
-// popups closing (close button, click on overlay):
-
 // universal function: closing of closest to event
 
 const closePopupByButton = (evt) => {
@@ -91,16 +71,15 @@ const nameInput = document.querySelector('.popup__text_type_name');
 const jobInput = document.querySelector('.popup__text_type_job');
 const addPopupOpenButton = document.querySelector('.profile__button_type_add');
 const editPopup = document.querySelector('.popup_type_edit');
-const addPopup = document.querySelector('.popup_type_add');
-const submitButtonAdd = document.querySelector('.popup__submit_type_add');
+export const addPopup = document.querySelector('.popup_type_add');
 
-editPopupOpenButton.addEventListener('click', () => {
+editPopupOpenButton.addEventListener('click', () => {re
+  openPopup(editPopup);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  openPopup(editPopup);
 });
 
-const openPopup = popup => {
+export const openPopup = popup => {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
 };
@@ -109,10 +88,10 @@ addPopupOpenButton.addEventListener('click', () => {
   openPopup(addPopup);
   imgTitleInput.textContent = '';
   imgLinkInput.textContent = '';
-  submitButtonAdd.setAttribute('disabled', true);
+  submitNewElement.setAttribute('disabled', true);
 });
 
-const closePopup = popup => {
+export const closePopup = popup => {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupByEsc);
 };

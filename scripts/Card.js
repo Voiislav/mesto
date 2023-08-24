@@ -2,6 +2,9 @@ const imagePopupPhoto = document.querySelector('.popup__image');
 const imagePopupTitle = document.querySelector('.popup__title_type_image');
 const imagePopup = document.querySelector('.popup_type_image');
 
+import { initialElements } from "../scripts/initialElements.js";
+import { openPopup } from "../scripts/index.js";
+
 class Card {
   constructor(data, templateSelector) {
     this._name = data.name;
@@ -34,15 +37,15 @@ class Card {
     imagePopupPhoto.src = this._link;
     imagePopupPhoto.alt = "На фото - " + this._name;
     imagePopupTitle.textContent = this._name;
-    imagePopup.classList.add('popup_opened');
+    openPopup(imagePopup);
   }
 
   _getTemplate() {
     const cardElement = document
-    .querySelector(this._templateSelector)
-    .content
-    .querySelector('.element')
-    .cloneNode(true);
+      .querySelector(this._templateSelector)
+      .content
+      .querySelector('.element')
+      .cloneNode(true);
 
     return cardElement;
   }
@@ -58,11 +61,38 @@ class Card {
       this._zoomImageHandler();
     })
   }
+
+  static createCardElement(data, templateSelector) {
+    const card = new Card(data, templateSelector);
+    const cardElement = card._createCard();
+    card._setEventListeners();
+    return cardElement;
+  }
 }
 
 initialElements.forEach((initialElement) => {
-  const card = new Card(initialElement, '.elements-template');
-  const cardElement = card._createCard();
-  card._setEventListeners();
+  const cardElement = Card.createCardElement(initialElement, '.elements-template');
   document.querySelector('.elements').append(cardElement);
-})
+});
+
+const submitNewElement = document.querySelector('.popup__form_type_add');
+const submitButton = document.querySelector('.popup__submit_type_add');
+const imgTitleInput = document.querySelector('.popup__text_type_title');
+const imgLinkInput = document.querySelector('.popup__text_type_link');
+const elementsContainer = document.querySelector('.elements');
+
+import { closePopup } from "../scripts/index.js";
+import { addPopup } from "../scripts/index.js";
+
+const addNewElement = evt => {
+  evt.preventDefault();
+  const newElement = { name: imgTitleInput.value, link: imgLinkInput.value };
+  const cardElement = Card.createCardElement(newElement, '.elements-template');
+  elementsContainer.prepend(cardElement);
+  submitNewElement.reset();
+  closePopup(addPopup);
+  submitButton.setAttribute('disabled', true);
+};
+
+submitNewElement.addEventListener('submit', addNewElement);
+
