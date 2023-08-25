@@ -24,3 +24,10 @@ export const initialElements = [
     link: 'https://images.unsplash.com/photo-1582220123432-6b1a42a6e14c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1414&q=80'
   }
 ];
+
+export const validationSettings = {
+  formElement: '.popup__form',
+  formInput: '.popup__text',
+  submitButtonSelector: '.popup__submit',
+  inputErrorClass: '.popup__text_type_error'
+};

@@ -1,6 +1,44 @@
+import { validationSettings } from "../scripts/constants.js";
+import { initialElements } from "../scripts/constants.js";
+import { FormValidator } from "../scripts/FormValidator.js";
+import { Card } from "../scripts/Card.js";
+
+initialElements.forEach((initialElement) => {
+  const cardElement = Card.createCardElement(initialElement, '.elements-template');
+  document.querySelector('.elements').append(cardElement);
+});
+
+const submitNewElement = document.querySelector('.popup__form_type_add');
+const imgTitleInput = document.querySelector('.popup__text_type_title');
+const imgLinkInput = document.querySelector('.popup__text_type_link');
+const elementsContainer = document.querySelector('.elements');
+
+const addNewElement = evt => {
+  evt.preventDefault();
+  const newElement = { name: imgTitleInput.value, link: imgLinkInput.value };
+  const cardElement = Card.createCardElement(newElement, '.elements-template');
+  elementsContainer.prepend(cardElement);
+  submitNewElement.reset();
+  closePopup(addPopup);
+  validators[submitNewElement.getAttribute('submitFormAdd')].changeButtonState();
+};
+
+submitNewElement.addEventListener('submit', addNewElement);
+
+const validators = {};
+const forms = Array.from(document.querySelectorAll(validationSettings.formElement)); 
+
+forms.forEach((formElement) => { 
+
+  const validator = new FormValidator(validationSettings, formElement); 
+  validator.enableValidation(); 
+  validators[formElement.getAttribute('submitFormAdd')] = validator;
+  validators[formElement.getAttribute('submitFormEdit')] = validator;
+});
+
 // universal function: closing of closest to event
 
-const closePopupByButton = (evt) => {
+const closePopupByButton = evt => {
   const closingPopup = evt.target.closest('.popup');
   closePopup(closingPopup);
 };
@@ -20,29 +58,25 @@ popupsCloseButtons.forEach(initPopupCloseButton);
 
 // closing by click on overlay
 
-const popupOverlay = document.querySelector('.popup');
 const popupOverlays = document.querySelectorAll('.popup');
 
-const initClosePopupOverlay = (evt) => {
-  if (evt.target.closest('.popup__container')) {
-    ;
-  } else {
-    closePopupByButton(evt)
+const closePopupByOverlay = evt => {
+  if (evt.target.classList.contains('popup')) {
+    closePopup(evt.currentTarget)
   }
-};
+}
 
-const closePopupByOverlayClick = (popupOverlay) => {
-  popupOverlay.addEventListener('click', initClosePopupOverlay)
-};
+const initClosePopupByOverlayClick = (popupOverlay) => {
+  popupOverlay.addEventListener('click', closePopupByOverlay)
+}
 
-popupOverlays.forEach(closePopupByOverlayClick);
+popupOverlays.forEach(initClosePopupByOverlayClick);
 
 
 // close popup by Esc
 
-const closePopupByEsc = (evt) => {
+const closePopupByEsc = evt => {
   if (evt.key === 'Escape') {
-    evt.preventDefault();
     closePopup(evt.currentTarget.querySelector('.popup_opened'));
   };
 };
@@ -52,17 +86,17 @@ const closePopupByEsc = (evt) => {
 
 const profileFormElement = document.querySelector('.popup__form_type_edit');
 
-const handleFormSubmit = evt => {
+const handleFormSubmitEdit = evt => {
   evt.preventDefault();  
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   closePopup(editPopup);
 };
 
-profileFormElement.addEventListener('submit', handleFormSubmit);
+profileFormElement.addEventListener('submit', handleFormSubmitEdit);
 
 
-// all popups opening & closing (universal functions)
+// edit/add popups opening & closing (universal functions)
 
 const editPopupOpenButton = document.querySelector('.profile__button_type_edit');
 const profileName = document.querySelector('.profile__title');
@@ -71,27 +105,34 @@ const nameInput = document.querySelector('.popup__text_type_name');
 const jobInput = document.querySelector('.popup__text_type_job');
 const addPopupOpenButton = document.querySelector('.profile__button_type_add');
 const editPopup = document.querySelector('.popup_type_edit');
-export const addPopup = document.querySelector('.popup_type_add');
+const addPopup = document.querySelector('.popup_type_add');
+const imagePopupPhoto = document.querySelector('.popup__image'); 
+const imagePopupTitle = document.querySelector('.popup__title_type_image'); 
+const imagePopup = document.querySelector('.popup_type_image');
 
-editPopupOpenButton.addEventListener('click', () => {re
+export const handleOpenImagePopup = (name, link) => {
+  openPopup(imagePopup);
+  imagePopupPhoto.src = this.link;
+  imagePopupTitle.textContent = this.name;
+}
+
+editPopupOpenButton.addEventListener('click', () => {
   openPopup(editPopup);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 });
 
-export const openPopup = popup => {
+const openPopup = popup => {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
 };
 
 addPopupOpenButton.addEventListener('click', () => {
   openPopup(addPopup);
-  imgTitleInput.textContent = '';
-  imgLinkInput.textContent = '';
-  submitNewElement.setAttribute('disabled', true);
+  submitNewElement.reset();
 });
 
-export const closePopup = popup => {
+const closePopup = popup => {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupByEsc);
 };
