@@ -1,10 +1,9 @@
-import { handleOpenImagePopup } from "../scripts/index.js";
-
 export class Card {
-  constructor(data, templateSelector) {
+  constructor(data, templateSelector, handleOpenImagePopup) {
     this._name = data.name;
     this._link = data.link;
     this._templateSelector = templateSelector;
+    this._handleOpenImagePopup = handleOpenImagePopup;
   }
 
   _createCard() {
@@ -28,13 +27,6 @@ export class Card {
     this._element.remove();
   }
 
-  // _zoomImageHandler() {
-  //   imagePopupPhoto.src = this._link;
-  //   imagePopupPhoto.alt = "На фото - " + this._name;
-  //   imagePopupTitle.textContent = this._name;
-  //   openPopup(imagePopup);
-  // }
-
   _getTemplate() {
     const cardElement = document
       .querySelector(this._templateSelector)
@@ -53,12 +45,12 @@ export class Card {
       this._removeHandler ();
     })
     this._zoomButton.addEventListener('click', () => {
-      handleOpenImagePopup ();
+      this._handleOpenImagePopup(this._name, this._link);
     })
   }
 
-  static createCardElement(data, templateSelector) {
-    const card = new Card(data, templateSelector);
+  static createCardElement(data, templateSelector, handleOpenImagePopup) {
+    const card = new Card(data, templateSelector, handleOpenImagePopup);
     const cardElement = card._createCard();
     card._setEventListeners();
     return cardElement;

@@ -18,7 +18,7 @@ export class FormValidator {
     }
   }
 
-  _changeButtonState(isValid) {
+  changeButtonState(isValid) {
     if (isValid) {
       this._submitButton.removeAttribute('disabled', isValid);
     } 
@@ -49,7 +49,7 @@ export class FormValidator {
     this._formInputs.forEach((input) => {
       this._checkInputValidity(input);
     });
-    this._changeButtonState(this._formElement.checkValidity());
+    this.changeButtonState(this._formElement.checkValidity());
   }
 }
 

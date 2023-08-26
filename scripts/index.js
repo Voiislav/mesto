@@ -1,12 +1,32 @@
+// imports of modules
+
 import { validationSettings } from "../scripts/constants.js";
 import { initialElements } from "../scripts/constants.js";
 import { FormValidator } from "../scripts/FormValidator.js";
 import { Card } from "../scripts/Card.js";
 
+
+// click on image -> zoom
+
+const imagePopupPhoto = document.querySelector('.popup__image');
+const imagePopupTitle = document.querySelector('.popup__title_type_image');
+const imagePopup = document.querySelector('.popup_type_image');
+
+const handleOpenImagePopup = (name, link) => {
+  imagePopupPhoto.src = link;
+  imagePopupPhoto.alt = "На фото -" + name;
+  imagePopupTitle.textContent = name;
+  openPopup(imagePopup);
+};
+
+// rendering of initial cards
+
 initialElements.forEach((initialElement) => {
-  const cardElement = Card.createCardElement(initialElement, '.elements-template');
+  const cardElement = Card.createCardElement(initialElement, '.elements-template', handleOpenImagePopup);
   document.querySelector('.elements').append(cardElement);
 });
+
+// adding new cards by user
 
 const submitNewElement = document.querySelector('.popup__form_type_add');
 const imgTitleInput = document.querySelector('.popup__text_type_title');
@@ -20,21 +40,22 @@ const addNewElement = evt => {
   elementsContainer.prepend(cardElement);
   submitNewElement.reset();
   closePopup(addPopup);
-  validators[submitNewElement.getAttribute('submitFormAdd')].changeButtonState();
 };
 
 submitNewElement.addEventListener('submit', addNewElement);
+
+// validation of add form
 
 const validators = {};
 const forms = Array.from(document.querySelectorAll(validationSettings.formElement)); 
 
 forms.forEach((formElement) => { 
-
   const validator = new FormValidator(validationSettings, formElement); 
   validator.enableValidation(); 
   validators[formElement.getAttribute('submitFormAdd')] = validator;
-  validators[formElement.getAttribute('submitFormEdit')] = validator;
 });
+
+validators[submitNewElement.getAttribute('submitFormAdd')].changeButtonState();
 
 // universal function: closing of closest to event
 
@@ -44,9 +65,8 @@ const closePopupByButton = evt => {
 };
 
 
-// closing by button "close"
+// popups closing by button "close"
 
-const popupsCloseButton = document.querySelector('.popup__close');
 const popupsCloseButtons = document.querySelectorAll('.popup__close');
 
 const initPopupCloseButton = popupsCloseButton => {
@@ -56,7 +76,7 @@ const initPopupCloseButton = popupsCloseButton => {
 popupsCloseButtons.forEach(initPopupCloseButton);
 
 
-// closing by click on overlay
+// popups closing by click on overlay
 
 const popupOverlays = document.querySelectorAll('.popup');
 
@@ -79,6 +99,11 @@ const closePopupByEsc = evt => {
   if (evt.key === 'Escape') {
     closePopup(evt.currentTarget.querySelector('.popup_opened'));
   };
+};
+
+const closePopup = popup => {
+  popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupByEsc);
 };
 
 
@@ -106,15 +131,6 @@ const jobInput = document.querySelector('.popup__text_type_job');
 const addPopupOpenButton = document.querySelector('.profile__button_type_add');
 const editPopup = document.querySelector('.popup_type_edit');
 const addPopup = document.querySelector('.popup_type_add');
-const imagePopupPhoto = document.querySelector('.popup__image'); 
-const imagePopupTitle = document.querySelector('.popup__title_type_image'); 
-const imagePopup = document.querySelector('.popup_type_image');
-
-export const handleOpenImagePopup = (name, link) => {
-  openPopup(imagePopup);
-  imagePopupPhoto.src = this.link;
-  imagePopupTitle.textContent = this.name;
-}
 
 editPopupOpenButton.addEventListener('click', () => {
   openPopup(editPopup);
@@ -131,8 +147,3 @@ addPopupOpenButton.addEventListener('click', () => {
   openPopup(addPopup);
   submitNewElement.reset();
 });
-
-const closePopup = popup => {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupByEsc);
-};
