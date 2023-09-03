@@ -1,30 +1,53 @@
 // imports of modules
 
-import { validationSettings } from "../scripts/constants.js";
-import { initialElements } from "../scripts/constants.js";
-import { FormValidator } from "../scripts/FormValidator.js";
-import { Card } from "../scripts/Card.js";
+import { validationSettings } from "../components/constants.js";
+import { initialElements } from "../components/constants.js";
+import { FormValidator } from "../components/FormValidator.js";
+import { Card } from "../components/Card.js";
+import { Popup } from "../components/Popup.js";
+import { PopupWithImage } from "../components/PopupWithImage.js";
+import { Section } from "../components/Section.js";
+
+//section rendering
+const section = new Section({
+  items: initialElements,
+  renderer: cardElement => {
+    section.addItem(cardElement);
+  },
+}, '.elements');
+
+section.renderItems();
+
+
+//edit & add popups
+const popups = document.querySelectorAll('.popup');
+popups.forEach((popup) => {
+  const popupElement = new Popup(popup);
+  popupElement.setEventListeners();
+  popupElement.close();
+});
+
 
 
 // click on image -> zoom
 
-const imagePopupPhoto = document.querySelector('.popup__image');
-const imagePopupTitle = document.querySelector('.popup__title_type_image');
-const imagePopup = document.querySelector('.popup_type_image');
+// const imagePopupPhoto = document.querySelector('.popup__image');
+// const imagePopupTitle = document.querySelector('.popup__title_type_image');
+// const imagePopup = document.querySelector('.popup_type_image');
 
-const handleOpenImagePopup = (name, link) => {
-  imagePopupPhoto.src = link;
-  imagePopupPhoto.alt = "На фото -" + name;
-  imagePopupTitle.textContent = name;
-  openPopup(imagePopup);
-};
+// const handleOpenImagePopup = (name, link) => {
+//   imagePopupPhoto.src = link;
+//   imagePopupPhoto.alt = "На фото -" + name;
+//   imagePopupTitle.textContent = name;
+//   openPopup(imagePopup);
+// };
 
 // rendering of initial cards
 
-initialElements.forEach((initialElement) => {
-  const cardElement = Card.createCardElement(initialElement, '.elements-template', handleOpenImagePopup);
-  document.querySelector('.elements').append(cardElement);
-});
+// initialElements.forEach((initialElement) => {
+//   const cardElement = Card.createCardElement(initialElement, '.elements-template');
+//   document.querySelector('.elements').append(cardElement);
+// });
 
 // adding new cards by user
 
@@ -57,55 +80,6 @@ forms.forEach((formElement) => {
 
 validators[submitNewElement.getAttribute('submitFormAdd')].changeButtonState();
 
-// universal function: closing of closest to event
-
-const closePopupByButton = evt => {
-  const closingPopup = evt.target.closest('.popup');
-  closePopup(closingPopup);
-};
-
-
-// popups closing by button "close"
-
-const popupsCloseButtons = document.querySelectorAll('.popup__close');
-
-const initPopupCloseButton = popupsCloseButton => {
-  popupsCloseButton.addEventListener('click', closePopupByButton);
-}
-
-popupsCloseButtons.forEach(initPopupCloseButton);
-
-
-// popups closing by click on overlay
-
-const popupOverlays = document.querySelectorAll('.popup');
-
-const closePopupByOverlay = evt => {
-  if (evt.target.classList.contains('popup')) {
-    closePopup(evt.currentTarget)
-  }
-}
-
-const initClosePopupByOverlayClick = (popupOverlay) => {
-  popupOverlay.addEventListener('click', closePopupByOverlay)
-}
-
-popupOverlays.forEach(initClosePopupByOverlayClick);
-
-
-// close popup by Esc
-
-const closePopupByEsc = evt => {
-  if (evt.key === 'Escape') {
-    closePopup(evt.currentTarget.querySelector('.popup_opened'));
-  };
-};
-
-const closePopup = popup => {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupByEsc);
-};
-
 
 // changing profile data by user
 
@@ -115,7 +89,6 @@ const handleFormSubmitEdit = evt => {
   evt.preventDefault();  
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
-  closePopup(editPopup);
 };
 
 profileFormElement.addEventListener('submit', handleFormSubmitEdit);
@@ -140,7 +113,6 @@ editPopupOpenButton.addEventListener('click', () => {
 
 const openPopup = popup => {
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupByEsc);
 };
 
 addPopupOpenButton.addEventListener('click', () => {

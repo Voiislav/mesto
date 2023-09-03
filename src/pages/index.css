@@ -22,7 +22,7 @@
 @import url(../blocks/element/__photo/element__photo.css);
 @import url(../blocks/element/__title/element__title.css);
 @import url(../blocks/element/__button/element__button.css);
-@import url(../blocks/element/__button/_selected/element__button_selected.css);
+@import url(../blocks/element/__button/_clicked/element__button_clicked.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copywrite/footer__copywrite.css);
 @import url(../blocks/popup/popup.css);
