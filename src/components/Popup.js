@@ -1,13 +1,15 @@
 export class Popup {
   constructor(popup) {
     this.popup = popup;
+    this._editPopup = document.querySelector('.popup_type_edit');
+    this._addPopup = document.querySelector('.popup_type_add');
     this.closeButton = this.popup.querySelector('.popup__close');
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleOverlayClose = this._handleOverlayClose.bind(this);
   }
 
-  open() {
-    this.popup.classList.add('popup_opened');
+  open(popup) {
+    popup.classList.add('popup_opened');
   }
 
   close() {

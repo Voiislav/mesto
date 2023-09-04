@@ -1,12 +1,13 @@
 // imports of modules
 
-import { validationSettings } from "../components/constants.js";
-import { initialElements } from "../components/constants.js";
+import { validationSettings, initialElements } from "../components/constants.js";
 import { FormValidator } from "../components/FormValidator.js";
 import { Card } from "../components/Card.js";
 import { Popup } from "../components/Popup.js";
-import { PopupWithImage } from "../components/PopupWithImage.js";
+// import { PopupWithImage } from "../components/PopupWithImage.js";
 import { Section } from "../components/Section.js";
+import { PopupWithForm } from "../components/PopupWithForm.js";
+import { UserInfo } from "../components/UserInfo.js";
 
 //section rendering
 const section = new Section({
@@ -20,13 +21,58 @@ section.renderItems();
 
 
 //edit & add popups
-const popups = document.querySelectorAll('.popup');
-popups.forEach((popup) => {
+const handlePopups = (popup) => {
   const popupElement = new Popup(popup);
   popupElement.setEventListeners();
   popupElement.close();
+};
+
+const popups = document.querySelectorAll('.popup');
+popups.forEach((popup) => handlePopups(popup));
+
+const userInfo = new UserInfo({
+  nameSelector: '.profile__title',
+  jobSelector: '.profile__subtitle'
 });
 
+const userData = userInfo.getUserInfo();
+
+const nameInput = document.querySelector('#user-name');
+const jobInput = document.querySelector('#user-job');
+
+nameInput.value = userData.name;
+jobInput.value = userData.job;
+
+const editPopup = new PopupWithForm(document.querySelector('.popup_type_edit'), (formData) => {
+
+  const nameElement = document.querySelector('.profile__title');
+  const jobElement = document.querySelector('.profile__subtitle');
+
+  nameElement.textContent = formData.name;
+  jobElement.textContent = formData.job;
+});
+
+editPopup.setEventListeners();
+// const editForm = document.querySelector('.popup__form_type_edit');
+// editForm.addEventListener('submit', (evt) => {
+//   evt.preventDefault();
+//   const newName = nameInput.value;
+//   const newJob = jobInput.value;
+
+//   userInfo.setUserInfo({
+//     name: newName,
+//     job: newJob,
+//   });
+
+//   const editPopup = editForm.closest('.popup');
+//   handlePopups(editPopup);
+// });
+
+// const imageSelector = '.popup__image';
+// const titleSelector = '.popup__title_type_image';
+// const imagePopup = '.popup_type_image';
+
+// const popupWithImage = new PopupWithImage(imagePopup, imageSelector, titleSelector);
 
 
 // click on image -> zoom
@@ -42,12 +88,6 @@ popups.forEach((popup) => {
 //   openPopup(imagePopup);
 // };
 
-// rendering of initial cards
-
-// initialElements.forEach((initialElement) => {
-//   const cardElement = Card.createCardElement(initialElement, '.elements-template');
-//   document.querySelector('.elements').append(cardElement);
-// });
 
 // adding new cards by user
 
@@ -68,7 +108,6 @@ const addNewElement = evt => {
 submitNewElement.addEventListener('submit', addNewElement);
 
 // validation of add form
-
 const validators = {};
 const forms = Array.from(document.querySelectorAll(validationSettings.formElement)); 
 
@@ -80,42 +119,10 @@ forms.forEach((formElement) => {
 
 validators[submitNewElement.getAttribute('submitFormAdd')].changeButtonState();
 
+// const addPopupOpenButton = document.querySelector('.profile__button_type_add');
+// const addPopup = document.querySelector('.popup_type_add');
 
-// changing profile data by user
-
-const profileFormElement = document.querySelector('.popup__form_type_edit');
-
-const handleFormSubmitEdit = evt => {
-  evt.preventDefault();  
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-};
-
-profileFormElement.addEventListener('submit', handleFormSubmitEdit);
-
-
-// edit/add popups opening & closing (universal functions)
-
-const editPopupOpenButton = document.querySelector('.profile__button_type_edit');
-const profileName = document.querySelector('.profile__title');
-const profileJob = document.querySelector('.profile__subtitle');
-const nameInput = document.querySelector('.popup__text_type_name');
-const jobInput = document.querySelector('.popup__text_type_job');
-const addPopupOpenButton = document.querySelector('.profile__button_type_add');
-const editPopup = document.querySelector('.popup_type_edit');
-const addPopup = document.querySelector('.popup_type_add');
-
-editPopupOpenButton.addEventListener('click', () => {
-  openPopup(editPopup);
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
-});
-
-const openPopup = popup => {
-  popup.classList.add('popup_opened');
-};
-
-addPopupOpenButton.addEventListener('click', () => {
-  openPopup(addPopup);
-  submitNewElement.reset();
-});
+// addPopupOpenButton.addEventListener('click', () => {
+//   openPopup(addPopup);
+//   submitNewElement.reset();
+// });

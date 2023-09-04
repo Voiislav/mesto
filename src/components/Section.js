@@ -1,5 +1,5 @@
 import { Card } from "./Card.js";
-import { PopupWithImage } from "./PopupWithImage.js";
+// import { PopupWithImage } from "./PopupWithImage.js";
 
 export class Section {
   constructor({ items, renderer }, containerSelector) {
@@ -24,15 +24,15 @@ export class Section {
     this._items.forEach(item => {
       const cardElement = this._createCard(item);
       const likeButton = cardElement.querySelector('.element__button');
+      const deleteButton = cardElement.querySelector('.element__trash');
+      const zoomButton = cardElement.querySelector('.element__zoom');
+      
       const card = new Card(
         likeButton,
-        cardElement,
-        () => this._handleLikeClick(cardElement),
-        () => this._handleDeleteClick(cardElement)
-      );
-
-      likeButton.addEventListener('click', () => card._handleLikeClick());
-      cardElement.querySelector('.element__trash').addEventListener('click', () => card._handleDeleteClick());
+        deleteButton,
+        zoomButton,
+        cardElement)
+      card.setEventListeners();
 
       this._renderer(cardElement);
     });
