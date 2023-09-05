@@ -3,7 +3,7 @@
   border: none;
   box-shadow: none;
   cursor: pointer;
-  background-image: url(../../../../images/like_icon.svg);
+  background-image: url(../../../../src/images/like_icon.svg);
   background-repeat: no-repeat;
   min-width: 22px;
   min-height: 19px;

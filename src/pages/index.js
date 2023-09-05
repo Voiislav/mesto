@@ -1,4 +1,5 @@
-// imports of modules
+// imports
+import "../pages/index.css";
 import { validationSettings, initialElements } from "../components/constants.js";
 import { FormValidator } from "../components/FormValidator.js";
 import { Popup } from "../components/Popup.js";
