@@ -1,5 +1,5 @@
 import { Card } from "./Card.js";
-// import { PopupWithImage } from "./PopupWithImage.js";
+import { PopupWithImage } from "./PopupWithImage.js";
 
 export class Section {
   constructor({ items, renderer }, containerSelector) {
@@ -27,11 +27,15 @@ export class Section {
       const deleteButton = cardElement.querySelector('.element__trash');
       const zoomButton = cardElement.querySelector('.element__zoom');
       
+      const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image'));
+
       const card = new Card(
         likeButton,
         deleteButton,
         zoomButton,
-        cardElement)
+        cardElement,
+        popupWithImage);
+
       card.setEventListeners();
 
       this._renderer(cardElement);
@@ -39,6 +43,6 @@ export class Section {
   }
 
   addItem(element) {
-    this._container.append(element);
+    this._container.prepend(element);
   }
 }

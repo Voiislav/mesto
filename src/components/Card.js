@@ -1,7 +1,7 @@
 import { PopupWithImage } from "./PopupWithImage.js";
 
 export class Card {
-  constructor(likeButton, deleteButton, zoomButton, element, handleLikeClick, handleDeleteClick, handleCardClick) {
+  constructor(likeButton, deleteButton, zoomButton, element, handleLikeClick, handleDeleteClick, handleCardClick, popupWithimage) {
     this._likeButton = likeButton;
     this._deleteButton = deleteButton;
     this._zoomButton = zoomButton;
@@ -9,6 +9,7 @@ export class Card {
     this._likeClickHandler = handleLikeClick;
     this._deleteClickHandler = handleDeleteClick;
     this._cardClickHandler = handleCardClick;
+    this._popupWithImage = popupWithimage;
   }
 
   _handleLikeClick() {
@@ -19,7 +20,12 @@ export class Card {
     this._element.remove();
   }
 
-  _handleCardClick() {}
+  _handleCardClick() {
+    const imageLink = this._element.querySelector('.element__photo').src;
+    const imageTitle = this._element.querySelector('.element__title').textContent;
+    const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image'));
+    popupWithImage.open(imageLink, imageTitle);
+  }
 
 
   setEventListeners() {

@@ -1,13 +1,12 @@
 // imports of modules
-
 import { validationSettings, initialElements } from "../components/constants.js";
 import { FormValidator } from "../components/FormValidator.js";
-import { Card } from "../components/Card.js";
 import { Popup } from "../components/Popup.js";
-// import { PopupWithImage } from "../components/PopupWithImage.js";
 import { Section } from "../components/Section.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { UserInfo } from "../components/UserInfo.js";
+import { Card } from "../components/Card.js";
+import { PopupWithImage } from "../components/PopupWithImage.js";
 
 //section rendering
 const section = new Section({
@@ -44,68 +43,36 @@ nameInput.value = userData.name;
 jobInput.value = userData.job;
 
 const editPopup = new PopupWithForm(document.querySelector('.popup_type_edit'), (formData) => {
-
   const nameElement = document.querySelector('.profile__title');
   const jobElement = document.querySelector('.profile__subtitle');
-
   nameElement.textContent = formData.name;
   jobElement.textContent = formData.job;
 });
 
 editPopup.setEventListeners();
-// const editForm = document.querySelector('.popup__form_type_edit');
-// editForm.addEventListener('submit', (evt) => {
-//   evt.preventDefault();
-//   const newName = nameInput.value;
-//   const newJob = jobInput.value;
 
-//   userInfo.setUserInfo({
-//     name: newName,
-//     job: newJob,
-//   });
+const addPopup = new PopupWithForm(document.querySelector('.popup_type_add'), (formData) => {
+  const newElement = { name: formData.title, link: formData.link };
+  const cardElement = section._createCard(newElement, '.elements-template');
+  section.addItem(cardElement);
+  const likeButton = cardElement.querySelector('.element__button');
+  const deleteButton = cardElement.querySelector('.element__trash');
+  const zoomButton = cardElement.querySelector('.element__zoom');
+      
+  const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image'));
 
-//   const editPopup = editForm.closest('.popup');
-//   handlePopups(editPopup);
-// });
+  const card = new Card(
+    likeButton,
+    deleteButton,
+    zoomButton,
+    cardElement,
+    popupWithImage);
 
-// const imageSelector = '.popup__image';
-// const titleSelector = '.popup__title_type_image';
-// const imagePopup = '.popup_type_image';
+  card.setEventListeners();
+});
 
-// const popupWithImage = new PopupWithImage(imagePopup, imageSelector, titleSelector);
+addPopup.setEventListeners();
 
-
-// click on image -> zoom
-
-// const imagePopupPhoto = document.querySelector('.popup__image');
-// const imagePopupTitle = document.querySelector('.popup__title_type_image');
-// const imagePopup = document.querySelector('.popup_type_image');
-
-// const handleOpenImagePopup = (name, link) => {
-//   imagePopupPhoto.src = link;
-//   imagePopupPhoto.alt = "На фото -" + name;
-//   imagePopupTitle.textContent = name;
-//   openPopup(imagePopup);
-// };
-
-
-// adding new cards by user
-
-const submitNewElement = document.querySelector('.popup__form_type_add');
-const imgTitleInput = document.querySelector('.popup__text_type_title');
-const imgLinkInput = document.querySelector('.popup__text_type_link');
-const elementsContainer = document.querySelector('.elements');
-
-const addNewElement = evt => {
-  evt.preventDefault();
-  const newElement = { name: imgTitleInput.value, link: imgLinkInput.value };
-  const cardElement = Card.createCardElement(newElement, '.elements-template');
-  elementsContainer.prepend(cardElement);
-  submitNewElement.reset();
-  closePopup(addPopup);
-};
-
-submitNewElement.addEventListener('submit', addNewElement);
 
 // validation of add form
 const validators = {};
@@ -116,13 +83,3 @@ forms.forEach((formElement) => {
   validator.enableValidation(); 
   validators[formElement.getAttribute('submitFormAdd')] = validator;
 });
-
-validators[submitNewElement.getAttribute('submitFormAdd')].changeButtonState();
-
-// const addPopupOpenButton = document.querySelector('.profile__button_type_add');
-// const addPopup = document.querySelector('.popup_type_add');
-
-// addPopupOpenButton.addEventListener('click', () => {
-//   openPopup(addPopup);
-//   submitNewElement.reset();
-// });

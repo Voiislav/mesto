@@ -1,6 +1,8 @@
 export class Popup {
   constructor(popup) {
     this.popup = popup;
+    this.editPopupOpenButton = document.querySelector('.profile__button_type_edit');
+    this.addPopupOpenButton = document.querySelector('.profile__button_type_add');
     this._editPopup = document.querySelector('.popup_type_edit');
     this._addPopup = document.querySelector('.popup_type_add');
     this.closeButton = this.popup.querySelector('.popup__close');
@@ -30,6 +32,8 @@ export class Popup {
 
   setEventListeners() {
     this.closeButton.addEventListener('click', () => this.close());
+    this.editPopupOpenButton.addEventListener('click', () => this.open(this._editPopup));
+    this.addPopupOpenButton.addEventListener('click', () => this.open(this._addPopup));
     document.addEventListener('keydown', this._handleEscClose);
     document.addEventListener('click', this._handleOverlayClose);
   }

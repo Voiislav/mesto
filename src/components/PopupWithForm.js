@@ -4,9 +4,9 @@ export class PopupWithForm extends Popup {
   constructor(popup, submitCallback) {
     super(popup);
     this._submitCallback = submitCallback;
-    this._popupFormEdit = document.querySelector('.popup__form_type_edit');
-    this._popupInputs = this._popupFormEdit.querySelectorAll('.popup__text');
-    this._popupSubmit = this._popupFormEdit.querySelector('.popup__submit');
+    this._popupForm = popup.querySelector('.popup__form');
+    this._popupInputs = this._popupForm.querySelectorAll('.popup__text');
+    this._popupSubmit = this._popupForm.querySelector('.popup__submit');
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
   }
 
@@ -22,17 +22,19 @@ export class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._popupFormEdit.addEventListener('submit', this._handleFormSubmit);
+    this._popupForm.addEventListener('submit', this._handleFormSubmit);
+  }
+
+
+  close(popup) {
+    super.close();
+    this._popupForm.reset();
   }
 
   _handleFormSubmit(evt) {
     evt.preventDefault();
     const formData = this._getInputValues();
     this._submitCallback(formData);
-  }
-
-  close() {
-    super.close();
-    this._popupFormEdit.reset();
+    this.close(this.popup);
   }
 }
