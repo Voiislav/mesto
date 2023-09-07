@@ -1,12 +1,7 @@
 export class Card {
-  constructor(element, zoomButton, handleCardClick) {
+  constructor(element, likeButton) {
     this._element = element;
-    // this._likeButton = likeButton;
-    // this._likeClickHandler = handleLikeClick;
-    // this._deleteButton = deleteButton;
-    // this._deleteClickHandler = handleDeleteClick;
-    this._zoomButton = zoomButton;
-    this._cardClickHandler = handleCardClick;
+    this._likeButton = likeButton;
   }
 
   _createCard(item) {
@@ -21,17 +16,12 @@ export class Card {
     return cardTemplate;
   }
 
-  // _handleLikeClick() {
-  //   this._likeButton.classList.toggle('element__button_clicked');
-  // }
-
-  _handleDeleteClick() {
-    this._element.remove();
+  _handleLikeClick() {
+    this._likeButton.classList.toggle('element__button_clicked');
   }
 
   setEventListeners() {
-    // this._likeButton.addEventListener('click', () => this._handleLikeClick());
-    this._zoomButton.addEventListener('click', this._cardClickHandler());
-    // this._deleteButton.addEventListener('click', this._handleDeleteClick());
+    this._likeButton.addEventListener('click', () => this._handleLikeClick());
+    console.log(this._likeButton);
   }
 }

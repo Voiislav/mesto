@@ -10,22 +10,25 @@ import { PopupWithImage } from "../components/PopupWithImage.js";
 
 //section rendering
 const handleCardClick = () => {
-  const imageLink = this._element.querySelector('.element__photo').src; 
-    const imageTitle = this._element.querySelector('.element__title').textContent; 
-    const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image')); 
-    popupWithImage.open(imageLink, imageTitle); 
-} 
+  const imageLink = document.querySelector('.element__photo').src; 
+  const imageTitle = document.querySelector('.element__title').textContent; 
+  const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image')); 
+  popupWithImage.open(imageLink, imageTitle);
+  console.log(imageLink);
+}
+
 
 const section = new Section(
-  {
-    items: initialElements,
+  { items: initialElements,
     renderer: item => {
-      const card = new Card(item);
+      const cardTemplate = document.querySelector('.elements-template').content.querySelector('.element').cloneNode(true);
+      const likeButton = cardTemplate.querySelector('.element__button');
+      const card = new Card(item, likeButton);
+      card.setEventListeners();
       return card._createCard(item);
-  },
-},
-'.elements'
-);
+    }
+  }, 
+    '.elements');
 section.renderItems();
 
 
@@ -67,7 +70,7 @@ popupAddCardOpenButton.addEventListener('click', () => {
   addFormValidator.changeButtonState(false);
 });
 
-// forms validation
+//forms validation
 const validators = {};
 const forms = Array.from(document.querySelectorAll(validationSettings.formElement)); 
 
