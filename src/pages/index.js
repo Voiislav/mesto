@@ -1,8 +1,7 @@
 // imports
 import "../pages/index.css";
-import { validationSettings, initialElements } from "../components/constants.js";
+import { validationSettings, initialElements } from "../utils/constants.js";
 import { FormValidator } from "../components/FormValidator.js";
-import { Popup } from "../components/Popup.js";
 import { Section } from "../components/Section.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { UserInfo } from "../components/UserInfo.js";
@@ -10,77 +9,69 @@ import { Card } from "../components/Card.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 
 //section rendering
-const section = new Section({
-  items: initialElements,
-  renderer: cardElement => {
-    section.addItem(cardElement);
-  },
-}, '.elements');
+const handleCardClick = () => {
+  const imageLink = this._element.querySelector('.element__photo').src; 
+    const imageTitle = this._element.querySelector('.element__title').textContent; 
+    const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image')); 
+    popupWithImage.open(imageLink, imageTitle); 
+} 
 
+const section = new Section(
+  {
+    items: initialElements,
+    renderer: item => {
+      const card = new Card(item);
+      return card._createCard(item);
+  },
+},
+'.elements'
+);
 section.renderItems();
 
 
 //edit & add popups
-const handlePopups = (popup) => {
-  const popupElement = new Popup(popup);
-  popupElement.setEventListeners();
-  popupElement.close();
-};
-
-const popups = document.querySelectorAll('.popup');
-popups.forEach((popup) => handlePopups(popup));
-
+const popupEditProfileOpenButton = document.querySelector('.profile__button_type_edit');
+const popupAddCardOpenButton = document.querySelector('.profile__button_type_add');
 const userInfo = new UserInfo({
   nameSelector: '.profile__title',
   jobSelector: '.profile__subtitle'
 });
 
-const userData = userInfo.getUserInfo();
-
-const nameInput = document.querySelector('#user-name');
-const jobInput = document.querySelector('#user-job');
-
-nameInput.value = userData.name;
-jobInput.value = userData.job;
-
-const editPopup = new PopupWithForm(document.querySelector('.popup_type_edit'), (formData) => {
-  const nameElement = document.querySelector('.profile__title');
-  const jobElement = document.querySelector('.profile__subtitle');
-  nameElement.textContent = formData.name;
-  jobElement.textContent = formData.job;
+const popupEditProfile = new PopupWithForm(document.querySelector('.popup_type_edit'), (formData) => {
+  const name = formData.name;
+  const job = formData.job;
+  userInfo.setUserInfo({ name, job });
 });
 
-editPopup.setEventListeners();
+popupEditProfileOpenButton.addEventListener('click', () => {
+  const { name, job } = userInfo.getUserInfo();
+  document.querySelector('#user-name').value = name;
+  document.querySelector('#user-job').value = job;
+  popupEditProfile.open();
+});
 
-const addPopup = new PopupWithForm(document.querySelector('.popup_type_add'), (formData) => {
+popupEditProfile.setEventListeners();
+
+const popupAddCard = new PopupWithForm(document.querySelector('.popup_type_add'), (formData) => {
   const newElement = { name: formData.title, link: formData.link };
-  const cardElement = section._createCard(newElement, '.elements-template');
-  section.addItem(cardElement);
-  const likeButton = cardElement.querySelector('.element__button');
-  const deleteButton = cardElement.querySelector('.element__trash');
-  const zoomButton = cardElement.querySelector('.element__zoom');
-      
-  const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image'));
-
-  const card = new Card(
-    likeButton,
-    deleteButton,
-    zoomButton,
-    cardElement,
-    popupWithImage);
-
-  card.setEventListeners();
+  const newCard = new Card(newElement);
+  const newCardElement = newCard._createCard(newElement);
+  section.addItem(newCardElement);
 });
 
-addPopup.setEventListeners();
+popupAddCard.setEventListeners();
 
+popupAddCardOpenButton.addEventListener('click', () => {
+  popupAddCard.open();
+  const addFormValidator = validators['submitFormAdd'];
+  addFormValidator.changeButtonState(false);
+});
 
-// validation of add form
+// forms validation
 const validators = {};
 const forms = Array.from(document.querySelectorAll(validationSettings.formElement)); 
 
 forms.forEach((formElement) => { 
-  const validator = new FormValidator(validationSettings, formElement); 
-  validator.enableValidation(); 
-  validators[formElement.getAttribute('submitFormAdd')] = validator;
+  const validator = new FormValidator(validationSettings, formElement);
+  validators[formElement.getAttribute('name')] = validator;
 });

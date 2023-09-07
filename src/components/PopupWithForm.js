@@ -35,6 +35,6 @@ export class PopupWithForm extends Popup {
     evt.preventDefault();
     const formData = this._getInputValues();
     this._submitCallback(formData);
-    this.close(this.popup);
+    this.close();
   }
 }
