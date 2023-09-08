@@ -9,26 +9,34 @@ import { Card } from "../components/Card.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 
 //section rendering + image popup
-const handleCardClick = (imageLink, imageTitle) => {
-  const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image')); 
-  popupWithImage.open(imageLink, imageTitle);
-  popupWithImage.setEventListeners();
+const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image'));
+popupWithImage.setEventListeners();
+
+const handleCardClick = (item) => {
+  popupWithImage.open(item.link, item.name);
+};
+
+const createCard = (item, handleCardClick) => {
+  const card = new Card(item, handleCardClick);
+  return card.createCard(item);
 }
 
 const section = new Section(
   { items: initialElements,
-    renderer: item => {
-      const card = new Card(item, handleCardClick);
-      return card.createCard(item);
-    }
+    renderer: item => createCard(item, () => handleCardClick(item))
   }, 
     '.elements');
+
 section.renderItems();
+
 
 
 //edit & add popups
 const popupEditProfileOpenButton = document.querySelector('.profile__button_type_edit');
 const popupAddCardOpenButton = document.querySelector('.profile__button_type_add');
+const userName = document.querySelector('#user-name');
+const userJob = document.querySelector('#user-job');
+
 const userInfo = new UserInfo({
   nameSelector: '.profile__title',
   jobSelector: '.profile__subtitle'
@@ -42,8 +50,8 @@ const popupEditProfile = new PopupWithForm(document.querySelector('.popup_type_e
 
 popupEditProfileOpenButton.addEventListener('click', () => {
   const { name, job } = userInfo.getUserInfo();
-  document.querySelector('#user-name').value = name;
-  document.querySelector('#user-job').value = job;
+  userName.value = name;
+  userJob.value = job;
   popupEditProfile.open();
 });
 
@@ -51,8 +59,7 @@ popupEditProfile.setEventListeners();
 
 const popupAddCard = new PopupWithForm(document.querySelector('.popup_type_add'), (formData) => {
   const newElement = { name: formData.title, link: formData.link };
-  const newCard = new Card(newElement, handleCardClick);
-  const newCardElement = newCard.createCard(newElement);
+  const newCardElement = createCard(newElement, handleCardClick);
   section.addItem(newCardElement);
 });
 
