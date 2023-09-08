@@ -59,7 +59,7 @@ popupEditProfile.setEventListeners();
 
 const popupAddCard = new PopupWithForm(document.querySelector('.popup_type_add'), (formData) => {
   const newElement = { name: formData.title, link: formData.link };
-  const newCardElement = createCard(newElement, handleCardClick);
+  const newCardElement = createCard(newElement, () => handleCardClick(newElement));
   section.addItem(newCardElement);
 });
 
