@@ -8,24 +8,18 @@ import { UserInfo } from "../components/UserInfo.js";
 import { Card } from "../components/Card.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 
-//section rendering
-const handleCardClick = () => {
-  const imageLink = document.querySelector('.element__photo').src; 
-  const imageTitle = document.querySelector('.element__title').textContent; 
+//section rendering + image popup
+const handleCardClick = (imageLink, imageTitle) => {
   const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image')); 
   popupWithImage.open(imageLink, imageTitle);
-  console.log(imageLink);
+  popupWithImage.setEventListeners();
 }
-
 
 const section = new Section(
   { items: initialElements,
     renderer: item => {
-      const cardTemplate = document.querySelector('.elements-template').content.querySelector('.element').cloneNode(true);
-      const likeButton = cardTemplate.querySelector('.element__button');
-      const card = new Card(item, likeButton);
-      card.setEventListeners();
-      return card._createCard(item);
+      const card = new Card(item, handleCardClick);
+      return card.createCard(item);
     }
   }, 
     '.elements');
@@ -57,8 +51,8 @@ popupEditProfile.setEventListeners();
 
 const popupAddCard = new PopupWithForm(document.querySelector('.popup_type_add'), (formData) => {
   const newElement = { name: formData.title, link: formData.link };
-  const newCard = new Card(newElement);
-  const newCardElement = newCard._createCard(newElement);
+  const newCard = new Card(newElement, handleCardClick);
+  const newCardElement = newCard.createCard(newElement);
   section.addItem(newCardElement);
 });
 
