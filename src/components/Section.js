@@ -7,8 +7,7 @@ export class Section {
 
   renderItems() {
     this._items.forEach(item => {
-      const card = this._renderer(item);
-      this._container.append(card);
+      this._renderer(item);
     });
   }
 

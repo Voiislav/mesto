@@ -23,9 +23,10 @@ const createCard = (item, handleCardClick) => {
 
 const section = new Section(
   { items: initialElements,
-    renderer: item => createCard(item, () => handleCardClick(item))
+    renderer: item => 
+    document.querySelector('.elements').append(createCard(item, () => handleCardClick(item)))
   }, 
-    '.elements');
+  '.elements');
 
 section.renderItems();
 
