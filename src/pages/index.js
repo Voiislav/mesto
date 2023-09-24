@@ -38,6 +38,17 @@ const popupAddCardOpenButton = document.querySelector('.profile__button_type_add
 const userName = document.querySelector('#user-name');
 const userJob = document.querySelector('#user-job');
 
+
+//avatar BETA
+const popupAvatarOpenButton = document.querySelector('.profile__change-avatar');
+const popupAvatar = new PopupWithForm(document.querySelector('.popup_type_change-avatar'));
+popupAvatarOpenButton.addEventListener('click', () => {
+  popupAvatar.open();
+});
+
+popupAvatar.setEventListeners();
+
+
 const userInfo = new UserInfo({
   nameSelector: '.profile__title',
   jobSelector: '.profile__subtitle'
@@ -80,3 +91,13 @@ forms.forEach((formElement) => {
   const validator = new FormValidator(validationSettings, formElement);
   validators[formElement.getAttribute('name')] = validator;
 });
+
+// fetch('https://mesto.nomoreparties.co/v1/cohort-76/cards', {
+//   headers: {
+//     authorization: 'db2e41a4-3852-40e2-9c01-18833418656f'
+//   }
+// })
+//   .then(res => res.json())
+//   .then((result) => {
+//     console.log(result);
+//   });

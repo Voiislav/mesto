@@ -19,7 +19,7 @@ export class Card {
     this._element = this._getCardTemplate();
     const cardImage = this._element.querySelector('.element__photo'); 
     const cardTitle = this._element.querySelector('.element__title');
-    this._likeButton = this._element.querySelector('.element__button');
+    this._likeButton = this._element.querySelector('.element__like');
     this._deleteButton = this._element.querySelector('.element__trash');
     this._zoomButton = this._element.querySelector('.element__zoom');
 
@@ -33,7 +33,7 @@ export class Card {
   }
 
   _handleLikeClick() {
-    this._likeButton.classList.toggle('element__button_clicked');
+    this._likeButton.classList.toggle('element__like_clicked');
   }
 
   _handleDeleteClick() {
