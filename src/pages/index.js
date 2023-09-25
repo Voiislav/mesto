@@ -7,8 +7,50 @@ import { PopupWithForm } from "../components/PopupWithForm.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { Card } from "../components/Card.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
+import { Api } from "../components/Api.js";
+
+
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-76',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+// user info
+const userInfo = new UserInfo({
+  nameSelector: '.profile__title',
+  jobSelector: '.profile__subtitle',
+  avatarSelector: '.profile__avatar'
+});
+
+api.getUserData() 
+  .then((userData) => {
+    userInfo.setUserInfo(userData.name, userData.about, userData.avatar);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 
 //section rendering + image popup
+const section = new Section({
+  renderer: (item) => {
+    const card = createCard(item);
+    section.addItem(card);
+  }
+}, '.elements');
+
+api.getInitialCards()
+.then((cardsData) => {
+  console.log(cardsData);
+  section.renderItems(cardsData);
+})
+.catch((err) => {
+  console.log(err);
+});
+
+
 const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image'));
 popupWithImage.setEventListeners();
 
@@ -20,18 +62,8 @@ const createCard = (item, handleCardClick) => {
   const card = new Card(item, handleCardClick);
   return card.createCard(item);
 }
-
-const section = new Section(
-  { items: initialElements,
-    renderer: item => 
-    document.querySelector('.elements').append(createCard(item, () => handleCardClick(item)))
-  }, 
-  '.elements');
-
-section.renderItems();
-
-
-
+  
+  
 //edit & add popups
 const popupEditProfileOpenButton = document.querySelector('.profile__button_type_edit');
 const popupAddCardOpenButton = document.querySelector('.profile__button_type_add');
@@ -47,12 +79,6 @@ popupAvatarOpenButton.addEventListener('click', () => {
 });
 
 popupAvatar.setEventListeners();
-
-
-const userInfo = new UserInfo({
-  nameSelector: '.profile__title',
-  jobSelector: '.profile__subtitle'
-});
 
 const popupEditProfile = new PopupWithForm(document.querySelector('.popup_type_edit'), (formData) => {
   const name = formData.name;
@@ -91,13 +117,3 @@ forms.forEach((formElement) => {
   const validator = new FormValidator(validationSettings, formElement);
   validators[formElement.getAttribute('name')] = validator;
 });
-
-// fetch('https://mesto.nomoreparties.co/v1/cohort-76/cards', {
-//   headers: {
-//     authorization: 'db2e41a4-3852-40e2-9c01-18833418656f'
-//   }
-// })
-//   .then(res => res.json())
-//   .then((result) => {
-//     console.log(result);
-//   });

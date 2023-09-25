@@ -3,4 +3,5 @@
   flex-direction: column;
   gap: 3px;
   align-self: center;
+  max-width: 22px;
 }
