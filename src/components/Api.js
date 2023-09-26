@@ -96,6 +96,25 @@ export class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       })
   }
+
+  changeAvatar(avatar) {
+    return fetch(`${this._usersUrl}/avatar`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: 'db2e41a4-3852-40e2-9c01-18833418656f'
+        },
+        body: JSON.stringify({
+          avatar
+        })
+      })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+  }
 }
 
 // GET https://mesto.nomoreparties.co/v1/cohortId/cards

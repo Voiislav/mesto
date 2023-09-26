@@ -1,6 +1,6 @@
 // imports
 import "../pages/index.css";
-import { validationSettings, initialElements } from "../utils/constants.js";
+import { validationSettings } from "../utils/constants.js";
 import { FormValidator } from "../components/FormValidator.js";
 import { Section } from "../components/Section.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
@@ -46,6 +46,7 @@ popupEditProfileOpenButton.addEventListener('click', () => {
 const popupEditProfile = new PopupWithForm(document.querySelector('.popup_type_edit'), (formData) => {
   const name = formData.name;
   const job = formData.job;
+  popupEditProfile.showSavingText(true);
   api.setNewUserData({ name, about: job })
     .then((userData) => {
       userInfo.setUserInfo(userData.name, userData.about);
@@ -53,11 +54,13 @@ const popupEditProfile = new PopupWithForm(document.querySelector('.popup_type_e
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      popupEditProfile.showSavingText(false);
+    })
 });  
 popupEditProfile.setEventListeners(); 
   
-
 
 //initial cards + image popup
 const section = new Section({
@@ -69,7 +72,6 @@ const section = new Section({
 
 api.getInitialCards()
 .then((cardsData) => {
-  console.log(cardsData);
   section.renderItems(cardsData);
 })
 .catch((err) => {
@@ -96,19 +98,35 @@ const createCard = (item, handleCardClick) => {
 const popupConfirmDeleting = new PopupWithForm(document.querySelector('.popup_type_confirm'));
 popupConfirmDeleting.setEventListeners();
 
-//avatar BETA
+//avatar changing
 const popupAvatarOpenButton = document.querySelector('.profile__change-avatar');
-const popupAvatar = new PopupWithForm(document.querySelector('.popup_type_change-avatar'));
-popupAvatarOpenButton.addEventListener('click', () => {
-  popupAvatar.open();
+const popupChangeAvatar = new PopupWithForm(document.querySelector('.popup_type_change-avatar'), (formData) => {
+  popupChangeAvatar.showSavingText(true);
+  api.changeAvatar(formData)
+    .then((userData) => {
+      userInfo.setUserInfo(userData);
+      popupChangeAvatar.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popupChangeAvatar.showSavingText(false);
+    })
 });
 
-popupAvatar.setEventListeners();
+popupAvatarOpenButton.addEventListener('click', () => {
+  popupChangeAvatar.open();
+});
+
+popupChangeAvatar.setEventListeners();
+
 
 //adding new cards
 const popupAddCardOpenButton = document.querySelector('.profile__button_type_add');
 
 const popupAddCard = new PopupWithForm(document.querySelector('.popup_type_add'), (formData) => {
+  popupAddCard.showSavingText(true);
   api.addNewCard({ name: formData.title, link: formData.link })
     .then((newCard) => {
       const newCardElement = createCard(newCard, () => handleCardClick(newCard));
@@ -117,7 +135,10 @@ const popupAddCard = new PopupWithForm(document.querySelector('.popup_type_add')
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      popupAddCard.showSavingText(false);
+    })
 });
 
 popupAddCard.setEventListeners();
