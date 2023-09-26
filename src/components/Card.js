@@ -1,7 +1,8 @@
 export class Card {
-  constructor(element, handleCardClick, item) {
+  constructor(element, handleCardClick, handleDeleteConfirmation, item) {
     this._element = element;
     this._handleCardClick = handleCardClick;
+    this._handleDeleteConfirmation = handleDeleteConfirmation;
     this._item = item;
   }
 
@@ -37,8 +38,7 @@ export class Card {
   }
 
   _handleDeleteClick() {
-    const elementToRemove = this._deleteButton.closest('.element');
-    elementToRemove.remove();
+    this._handleDeleteConfirmation(this._item);
   }
 
   _setEventListeners() { 

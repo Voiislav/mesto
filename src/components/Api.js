@@ -3,6 +3,7 @@ export class Api {
     this._url = url;
     this._usersUrl = `${this._url}/users/me`;
     this._cardsUrl = `${this._url}/cards`;
+    this._likesUrl = `${this._url}/cards/likes`;
     this._headers = headers;
   }
 
@@ -72,6 +73,21 @@ export class Api {
           name: name,
           link: link,
         })
+      })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+  }
+
+  putLikes(cardId) {
+    return fetch(`${this._likesUrl}/${cardId}`, {
+        method: 'PUT',
+        headers: {
+          authorization: 'db2e41a4-3852-40e2-9c01-18833418656f'
+        }
       })
       .then(res => {
         if (res.ok) {
