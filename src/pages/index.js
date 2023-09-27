@@ -19,18 +19,18 @@ const api = new Api({
 
 // user info
 const popupEditProfileOpenButton = document.querySelector('.profile__button_type_edit');
-const userName = document.querySelector('#user-name');
-const userJob = document.querySelector('#user-job');
-
 const userInfo = new UserInfo({
   nameSelector: '.profile__title',
   jobSelector: '.profile__subtitle',
   avatarSelector: '.profile__avatar'
 });
 
+let currentUserId; // declaring a variable for the user's ID in the global scope
+
 api.getUserData() 
   .then((userData) => {
-    userInfo.setUserInfo(userData.name, userData.about, userData.avatar);
+    userInfo.setUserInfo(userData.name, userData.about, userData.avatar, userData._id);
+    currentUserId = userData._id;
   })
   .catch((err) => {
     console.log(err);
@@ -38,6 +38,8 @@ api.getUserData()
 
 popupEditProfileOpenButton.addEventListener('click', () => {
   const { name, job } = userInfo.getUserInfo();
+  const userName = document.querySelector('#user-name');
+  const userJob = document.querySelector('#user-job');
   userName.value = name;
   userJob.value = job;
   popupEditProfile.open();
@@ -78,25 +80,27 @@ api.getInitialCards()
   console.log(err);
 });
 
-
 const popupWithImage = new PopupWithImage(document.querySelector('.popup_type_image'));
 popupWithImage.setEventListeners();
 
-const handleCardClick = (item) => {
+const zoomImage = (item) => {
   popupWithImage.open(item.link, item.name);
 };
 
-const handleDeleteConfirmation = () => {
+const askDeleteConfirmation = () => {
   popupConfirmDeleting.open();
 };
 
-const createCard = (item, handleCardClick) => {
-  const card = new Card(item, handleCardClick, handleDeleteConfirmation);
-  return card.createCard(item);
+const createCard = (item) => {
+  const card = new Card(item, zoomImage, askDeleteConfirmation);
+  return card.createCard(item, currentUserId);
 }
 
+// cards deleting 
 const popupConfirmDeleting = new PopupWithForm(document.querySelector('.popup_type_confirm'));
 popupConfirmDeleting.setEventListeners();
+
+
 
 //avatar changing
 const popupAvatarOpenButton = document.querySelector('.profile__change-avatar');
@@ -122,9 +126,8 @@ popupAvatarOpenButton.addEventListener('click', () => {
 popupChangeAvatar.setEventListeners();
 
 
-//adding new cards
+//new cards adding
 const popupAddCardOpenButton = document.querySelector('.profile__button_type_add');
-
 const popupAddCard = new PopupWithForm(document.querySelector('.popup_type_add'), (formData) => {
   popupAddCard.showSavingText(true);
   api.addNewCard({ name: formData.title, link: formData.link })
@@ -148,6 +151,7 @@ popupAddCardOpenButton.addEventListener('click', () => {
   const addFormValidator = validators['submitFormAdd'];
   addFormValidator.changeButtonState(false);
 });
+
 
 //forms validation
 const validators = {};
