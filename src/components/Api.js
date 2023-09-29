@@ -2,7 +2,6 @@ export class Api {
   constructor({ url, headers }) {
     this._url = url;
     this._usersUrl = `${this._url}/users/me`;
-    this._avatarUrl = `${this._url}/users/me/avatar`;
     this._cardsUrl = `${this._url}/cards`;
     this._likesUrl = `${this._url}/cards/likes`;
     this._headers = headers;
@@ -123,16 +122,16 @@ export class Api {
   }
 
 
-  // changing user avatar
-  changeAvatar(link) {
-    return fetch(this._avatarUrl, {
+  // avatar changing
+  changeAvatar(avatarLink) {
+    return fetch(`${this._usersUrl}/avatar`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           authorization: 'db2e41a4-3852-40e2-9c01-18833418656f'
         },
         body: JSON.stringify({
-          avatar: link
+          avatar: avatarLink
         })
       })
       .then(res => {

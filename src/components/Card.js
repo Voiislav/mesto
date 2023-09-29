@@ -1,8 +1,9 @@
 export class Card {
-  constructor(item, zoomImage, askDeleteConfirmation, element) {
+  constructor(item, zoomImage, askDeleteConfirmation, handleLikeClick, element) {
     this._element = element;
     this._zoomImage = zoomImage;
     this._askDeleteConfirmation = askDeleteConfirmation;
+    this._handleLikeClick = handleLikeClick;
     this._item = item;
   }
 
@@ -27,6 +28,7 @@ export class Card {
     this._owner = item.owner._id;
     this._currentUserId = currentUserId;
     this._likes = item.likes;
+    this._cardNumber = item._id
 
     cardImage.src = item.link;
     cardImage.alt = 'На фото - ' + item.name;
@@ -38,13 +40,16 @@ export class Card {
       this._deleteButton.style.display = 'none';
     };
 
+    this.putLike(this._likes);
+    this.deleteLike(this._likes);
+
     this._setEventListeners();
     
     return this._element;
   }
 
-  _handleLikeClick() {
-    this._likeButton.classList.toggle('element__like_clicked');
+  deleteCard() {
+    this._element.remove();
   }
 
   _handleDeleteClick() {
@@ -55,13 +60,28 @@ export class Card {
     this._zoomImage(this._item);
   }
 
+  _identifyLike() {
+    for (let i = 0; i < this._likes.length; i++) {
+      if (this._likes[i]._id !== this._userId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  putLike() {
+    this._likeButton.classList.add('element__like_clicked');
+  }
+
+  deleteLike() {
+    this._likeButton.classList.remove('element__like_clicked');
+  }
+
   _setEventListeners() { 
-    this._likeButton.addEventListener('click', () => this._handleLikeClick()); 
+    this._likeButton.addEventListener('click', () => {
+      this._handleLikeClick(this._cardNumber, this._identifyLike(), this);
+    }); 
     this._deleteButton.addEventListener('click', () => this._handleDeleteClick()); 
     this._zoomButton.addEventListener('click', () => this._handleCardClick());
   }
 }
-
- // _updateLikesNumber(likes) {
-  //   this._likesNumber.textContent = likes.length;
-  // }

@@ -8,6 +8,7 @@ import { UserInfo } from "../components/UserInfo.js";
 import { Card } from "../components/Card.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { Api } from "../components/Api.js";
+import { PopupWithDeleteConfirmation } from "../components/PopupWithDeleteConfirmation.js";
 
 // API
 const api = new Api({
@@ -87,19 +88,54 @@ const zoomImage = (item) => {
   popupWithImage.open(item.link, item.name);
 };
 
-const askDeleteConfirmation = () => {
-  popupConfirmDeleting.open();
+const createCard = (item) => {
+  const card = new Card(item, zoomImage, askDeleteConfirmation, handleLikeClick);
+return card.createCard(item, currentUserId);
 };
 
-const createCard = (item) => {
-  const card = new Card(item, zoomImage, askDeleteConfirmation);
-  return card.createCard(item, currentUserId);
+
+// likes
+const handleLikeClick = (id, isLiked, card) => {
+  if (isLiked) {
+    api.deleteLike(id)
+      .then(() => {
+        card.deleteLike();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } 
+  else {
+    api.putLike(id)
+      .then(() => {
+        card.putLike();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }
 
-// cards deleting 
-const popupConfirmDeleting = new PopupWithForm(document.querySelector('.popup_type_confirm'));
+
+// deleting cards
+const popupConfirmDeleting = new PopupWithDeleteConfirmation(document.querySelector('.popup_type_confirm'));
 popupConfirmDeleting.setEventListeners();
 
+const askDeleteConfirmation = (id, card) => {
+  popupConfirmDeleting.setSubmit(() => handlePopupConfirm(id, card))
+  popupConfirmDeleting.open();
+}
+
+function handlePopupConfirm(id, card) {
+  api.removeCard(id)
+    .then(() => {
+      popupConfirmDeleting.close();
+      card.deleteCard();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 
 
 //avatar changing
@@ -108,7 +144,7 @@ const popupChangeAvatar = new PopupWithForm(document.querySelector('.popup_type_
   popupChangeAvatar.showSavingText(true);
   api.changeAvatar(formData)
     .then((userData) => {
-      userInfo.setUserInfo(userData);
+      userInfo.setUserInfo(userData.avatar);
       popupChangeAvatar.close();
     })
     .catch((err) => {
