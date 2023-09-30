@@ -13,4 +13,8 @@ export class Section {
   addItem(card) {
     this._container.append(card);
   }
-}  
+
+  prependItem(card) {
+    this._container.prepend(card);
+  }
+}

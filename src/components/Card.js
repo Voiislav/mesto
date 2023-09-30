@@ -1,15 +1,22 @@
 export class Card {
-  constructor(item, zoomImage, askDeleteConfirmation, handleLikeClick, element) {
-    this._element = element;
+  constructor({ item, zoomImage, askDeleteConfirmation, handleLikeClick, element }, templateSelector, currentUserId) {
+    this._item = item;
     this._zoomImage = zoomImage;
     this._askDeleteConfirmation = askDeleteConfirmation;
     this._handleLikeClick = handleLikeClick;
-    this._item = item;
+    this._templateSelector = templateSelector;
+    this._element = element;
+    this._currentUserId = currentUserId;
+    this._name = item.name;
+    this._link = item.link;
+    this._owner = item.owner._id;
+    this._cardId = item._id;
+    this._likes = item.likes;
   }
 
   _getCardTemplate() {
     const cardTemplate = document.
-    querySelector('.elements-template').
+    querySelector(this._templateSelector).
     content.
     querySelector('.element').
     cloneNode(true);
@@ -17,7 +24,7 @@ export class Card {
     return cardTemplate;
   }
 
-  createCard(item, currentUserId) {
+  createCard(item) {
     this._element = this._getCardTemplate();
     const cardImage = this._element.querySelector('.element__photo'); 
     const cardTitle = this._element.querySelector('.element__title');
@@ -25,61 +32,55 @@ export class Card {
     this._likesNumber = this._element.querySelector('.element__likes-number');
     this._deleteButton = this._element.querySelector('.element__trash');
     this._zoomButton = this._element.querySelector('.element__zoom');
-    this._owner = item.owner._id;
-    this._currentUserId = currentUserId;
-    this._likes = item.likes;
-    this._cardNumber = item._id
 
     cardImage.src = item.link;
     cardImage.alt = 'На фото - ' + item.name;
     cardTitle.textContent = item.name;
-    this._likesNumber.textContent = item.likes.length;
 
     // only card owner can delete it
     if (this._owner !== this._currentUserId) {
       this._deleteButton.style.display = 'none';
     };
 
-    this.putLike(this._likes);
-    this.deleteLike(this._likes);
+    this.setLikes(this._likes);
 
     this._setEventListeners();
     
     return this._element;
   }
 
-  deleteCard() {
-    this._element.remove();
+  _handleDeleteClick() {
+    this._askDeleteConfirmation(this._item._id, this._item);
   }
 
-  _handleDeleteClick() {
-    this._askDeleteConfirmation(this._item._id);
+  deleteCard() {
+    this._element.remove();
+    this._element = null;
+  }
+
+  _checkLike() {
+    return this._likes.some(like => {
+      return like._id === this._currentUserId;
+    });
+  }
+
+  setLikes(array) {
+    this._likesNumber.textContent = array.length;
+    array = this._likes;
+    if (this._checkLike()) {
+      this._likeButton.classList.add('element__like_clicked');
+    } else {
+      this._likeButton.classList.remove('element__like_clicked');
+    }
   }
 
   _handleCardClick() {
     this._zoomImage(this._item);
   }
 
-  _identifyLike() {
-    for (let i = 0; i < this._likes.length; i++) {
-      if (this._likes[i]._id !== this._userId) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  putLike() {
-    this._likeButton.classList.add('element__like_clicked');
-  }
-
-  deleteLike() {
-    this._likeButton.classList.remove('element__like_clicked');
-  }
-
   _setEventListeners() { 
     this._likeButton.addEventListener('click', () => {
-      this._handleLikeClick(this._cardNumber, this._identifyLike(), this);
+      this._handleLikeClick(this._cardId, this._checkLike(), this._element);
     }); 
     this._deleteButton.addEventListener('click', () => this._handleDeleteClick()); 
     this._zoomButton.addEventListener('click', () => this._handleCardClick());
