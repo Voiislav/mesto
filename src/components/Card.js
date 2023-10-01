@@ -59,11 +59,13 @@ export class Card {
   }
 
   _checkLike() {
-    return this._likes.some(like => {
-      return like._id === this._currentUserId;
-    });
+    for (const like of this._likes) {
+      if (like._id === this._currentUserId) {
+        return true;
+      }
+    }
+    return false;
   }
-
 
   setLikes(likesArray) {
     this._element.querySelector('.element__likes-number').textContent = likesArray.length;
