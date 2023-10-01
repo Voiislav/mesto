@@ -78,14 +78,14 @@ const popupEditProfile = new PopupWithForm(document.querySelector('.popup_type_e
 });  
 popupEditProfile.setEventListeners();
 
-const createCard = (item) => {
-  const card = new Card({ item, zoomImage, askDeleteConfirmation, handleLikeClick }, '.elements-template', currentUserId);
+const createCard = (item, likes) => {
+  const card = new Card({ item, zoomImage, askDeleteConfirmation, handleLikeClick, likes }, '.elements-template', currentUserId, item.likes);
   return card.createCard(item);
 };
   
 const section = new Section({
   renderer: (item) => {
-    const newCard = createCard(item);
+    const newCard = createCard(item, item.likes);
     section.addItem(newCard);
   }
 }, '.elements');
@@ -98,18 +98,17 @@ const zoomImage = (item) => {
 
 
 // likes
-const handleLikeClick = (item, isLiked, card) => {
+const handleLikeClick = (id, isLiked, card) => {
   if (isLiked) {
-    api.deleteLike(item)
+    api.deleteLike(id)
       .then((item) => {
         card.setLikes(item.likes);
       })
       .catch((err) => {
         console.log(err);
       });
-  } 
-  else {
-    api.putLike(item)
+  } else {
+    api.putLike(id)
       .then((item) => {
         card.setLikes(item.likes);
       })
@@ -119,14 +118,15 @@ const handleLikeClick = (item, isLiked, card) => {
   }
 }
 
+
 // deleting cards
-const askDeleteConfirmation = (item, card) => {
-  popupConfirmDeleting.setSubmit(() => handlePopupConfirm(item._id, card))
+const askDeleteConfirmation = (id, card) => {
+  popupConfirmDeleting.setSubmit(() => handlePopupConfirm(id, card))
   popupConfirmDeleting.open();
 }
 
-const handlePopupConfirm = (item, card) => {
-  api.removeCard(item)
+const handlePopupConfirm = (id, card) => {
+  api.removeCard(id)
     .then(() => {
       card.deleteCard();
       popupConfirmDeleting.close();
