@@ -78,18 +78,6 @@ const popupEditProfile = new PopupWithForm(document.querySelector('.popup_type_e
 });  
 popupEditProfile.setEventListeners();
 
-const createCard = (item, likes) => {
-  const card = new Card({ item, zoomImage, askDeleteConfirmation, handleLikeClick, likes }, '.elements-template', currentUserId, item.likes);
-  return card.createCard(item);
-};
-  
-const section = new Section({
-  renderer: (item) => {
-    const newCard = createCard(item, item.likes);
-    section.addItem(newCard);
-  }
-}, '.elements');
-
 
 // image popup
 const zoomImage = (item) => {
@@ -117,6 +105,18 @@ const handleLikeClick = (id, isLiked, card) => {
       });
   }
 }
+
+const createCard = (item, likes) => {
+  const card = new Card({ item, zoomImage, askDeleteConfirmation, handleLikeClick, likes }, '.elements-template', currentUserId, item.likes);
+  return card.createCard(item, item.likes);
+};
+  
+const section = new Section({
+  renderer: (item) => {
+    const newCard = createCard(item, item.likes);
+    section.addItem(newCard);
+  }
+}, '.elements');
 
 
 // deleting cards
