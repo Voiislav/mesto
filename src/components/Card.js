@@ -32,7 +32,6 @@ export class Card {
     this._deleteButton = this._element.querySelector('.element__trash');
     this._zoomButton = this._element.querySelector('.element__zoom');
     this._likesNumber = this._element.querySelector('.element__likes-number');
-    this._likesNumber.textContent = item.likes.length;
 
     cardImage.src = item.link;
     cardImage.alt = 'На фото - ' + item.name;
@@ -68,7 +67,7 @@ export class Card {
   }
 
   setLikes(likesArray) {
-    this._element.querySelector('.element__likes-number').textContent = likesArray.length;
+    this._likesNumber.textContent = likesArray.length;
     this._likes = likesArray;
     if (this._checkLike()) {
       this._likeButton.classList.add('element__like_clicked');

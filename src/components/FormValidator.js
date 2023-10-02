@@ -35,21 +35,9 @@ export class FormValidator {
     this._formInputs.forEach((input) => {
       input.addEventListener('input', () => {
         this._checkInputValidity(input);
-        if (!this._formElement.checkValidity()) {
-          this._submitButton.setAttribute('disabled', !this._formElement.checkValidity());
-        } 
-        else {
-          this._submitButton.removeAttribute('disabled', this._formElement.checkValidity());
-        }
+        this.changeButtonState(this._formElement.checkValidity());
       });
     });
-  }
-
-  enableValidation() {
-    this._formInputs.forEach((input) => {
-      this._checkInputValidity(input);
-    });
-    this.changeButtonState(this._formElement.checkValidity());
   }
 }
 
