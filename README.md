@@ -4,7 +4,7 @@
 
 This project is one-page responsive website in russian with content that can be changed or added by user. File structure of the project based on BEM standarts (Nested).
 
-[Project link](https://voiislav.github.io/mesto)
+[Project link](https://voiislav.github.io/mesto/)
 
 **What you can do on this website?**
 
