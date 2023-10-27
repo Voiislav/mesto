@@ -9,16 +9,15 @@ This project is one-page responsive website in russian with content that can be 
 **What you can do on this website?**
 
 * Change profile data
-* Put likes on cards with photos
-* Add new cards
-* Delete cards
-* Zoom in on photos by click
+* Put likes on cards
+* Add new cards and delete those that were added by you
+* Zoom in on photos by clicking
 
 **Technologies**
 
 * HTML 5
 * CSS 3 (using Flexbox, Grid Layout, media queries)
-* JavaScript (+ OOP principles)
+* JavaScript
 
 **Design**
 
